@@ -4,6 +4,7 @@ import FormCreateView from '../view/form-create-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import WaypointView from '../view/waypoint-view.js';
 import { render } from '../render.js';
+import { NUM_OF_POINTS } from '../const.js';
 
 export default class BoardPresenter {
   boardComponent = new BoardView();
@@ -16,7 +17,7 @@ export default class BoardPresenter {
     render(new FormEditView(), this.boardComponent.getElement());
     render(new FormCreateView(), this.boardComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUM_OF_POINTS; i++) {
       render(new WaypointView(), this.boardComponent.getElement());
     }
   };
