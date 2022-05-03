@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 import { humanizePointDate, humanizeEventDate, getDurationDates } from '../util.js';
 
 const createWaypointTemplate = (point) => {
-  const { basePrice, dateFrom, dateTo, destination, isFavorite, type } = point;
+  const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
 
   const formatedDateFrom = humanizePointDate(dateFrom);
   const formatedDateTo = humanizePointDate(dateTo);
@@ -30,7 +30,7 @@ const createWaypointTemplate = (point) => {
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
           <li class="event__offer">
-            <span class="event__offer-title">Order Uber</span>
+            <span class="event__offer-title">ничего</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">20</span>
           </li>

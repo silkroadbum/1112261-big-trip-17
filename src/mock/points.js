@@ -1,11 +1,11 @@
 import { getRandomInteger, getRandomArrayElement } from '../util.js';
 import { BASE_PRICE, DESTINATIONS, TYPES } from '../const.js';
+import { offers } from './offers.js';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax.js';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(minMax);
-
 
 const generateBasePrice = () => getRandomArrayElement(BASE_PRICE);
 
@@ -24,13 +24,16 @@ const generateDate = () => {
   };
 };
 
-export const generatePoint = () => ({
-  basePrice: generateBasePrice(),
-  dateFrom: dayjs.min(dayjs(), generateDate().dateFrom, generateDate().dateTo),
-  dateTo: dayjs.max(dayjs(), generateDate().dateFrom, generateDate().dateTo),
-  destination: generateDestination(),
-  id: '0',
-  isFavorite: Boolean(getRandomInteger(0, 1)),
-  offers: '',
-  type: generateType()
-});
+export const generatePoint = () => {
+  const typePoint = generateType();
+  return {
+    basePrice: generateBasePrice(),
+    dateFrom: dayjs.min(dayjs(), generateDate().dateFrom, generateDate().dateTo),
+    dateTo: dayjs.max(dayjs(), generateDate().dateFrom, generateDate().dateTo),
+    destination: generateDestination(),
+    id: '0',
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+    type: typePoint,
+    offers: offers[typePoint],
+  };
+};
