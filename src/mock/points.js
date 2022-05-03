@@ -1,43 +1,36 @@
-import { getRandomInteger } from '../util.js';
+import { getRandomInteger, getRandomArrayElement } from '../util.js';
+import { BASE_PRICE, DESTINATIONS, TYPES } from '../const.js';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax.js';
+import utc from 'dayjs/plugin/utc.js';
+dayjs.extend(utc);
+dayjs.extend(minMax);
 
-const generateDestination = () => {
-  const destinations = [
-    'Amsterdam',
-    'Chamonix',
-    'Geneva'
-  ];
 
-  const randomIndex = getRandomInteger(0, destinations.length - 1);
+const generateBasePrice = () => getRandomArrayElement(BASE_PRICE);
 
-  return destinations[randomIndex];
+const generateDestination = () => getRandomArrayElement(DESTINATIONS);
+
+const generateType = () => getRandomArrayElement(TYPES);
+
+const generateDate = () => {
+  const maxDaysGap = 2;
+  const maxTimeGap = 5;
+  const firstDayGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const secondDayGap = getRandomInteger(firstDayGap, maxDaysGap);
+  return {
+    dateFrom: dayjs.utc().add(firstDayGap, 'day').add(getRandomInteger(0, maxTimeGap), 'minute').add(getRandomInteger(0, maxTimeGap), 'hour'),
+    dateTo: dayjs.utc().add(secondDayGap, 'day').add(getRandomInteger(0, maxTimeGap), 'minute').add(getRandomInteger(0, maxTimeGap), 'hour'),
+  };
 };
-
-const generateOffer = () => {
-  const offers = [
-    'taxi',
-    'bus',
-    'train',
-    'ship',
-    'drive',
-    'flight',
-    'check-in',
-    'sightseeing',
-    'restaurant'
-  ];
-
-  const randomIndex = getRandomInteger(0, offers.length - 1);
-
-  return offers[randomIndex];
-};
-
 
 export const generatePoint = () => ({
-  'base_price': 1100,
-  'dateFrom': '2019-07-10T22:55:56.845Z',
-  'dateTo': '2019-07-11T11:22:13.375Z',
-  'destination': generateDestination(),
-  'id': '0',
-  'is_favorite': false,
-  'offers': generateOffer(),
-  'type': 'bus'
+  basePrice: generateBasePrice(),
+  dateFrom: dayjs.min(dayjs(), generateDate().dateFrom, generateDate().dateTo),
+  dateTo: dayjs.max(dayjs(), generateDate().dateFrom, generateDate().dateTo),
+  destination: generateDestination(),
+  id: '0',
+  isFavorite: Boolean(getRandomInteger(0, 1)),
+  offers: '',
+  type: generateType()
 });
