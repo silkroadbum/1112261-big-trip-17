@@ -1,11 +1,17 @@
 import { getRandomInteger, getRandomArrayElement } from '../util.js';
 import { BASE_PRICE, DESTINATIONS, TYPES } from '../const.js';
-import { offers } from './offers.js';
+import { typesOffer } from './offers.js';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax.js';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(minMax);
+
+
+const findPointTypeOffer = (arrayOffers, type) => {
+  const pointTypeOffer = arrayOffers.find((offer) => offer.type === type);
+  return pointTypeOffer;
+};
 
 const generateBasePrice = () => getRandomArrayElement(BASE_PRICE);
 
@@ -34,6 +40,6 @@ export const generatePoint = () => {
     id: '0',
     isFavorite: Boolean(getRandomInteger(0, 1)),
     type: typePoint,
-    offers: offers[typePoint],
+    offers: findPointTypeOffer(typesOffer, typePoint)
   };
 };
