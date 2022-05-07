@@ -66,7 +66,7 @@ export default class SortView {
     return createSortTemplate();
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
       this.#element = createElement(this.template);
     }
