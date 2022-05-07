@@ -112,7 +112,7 @@ const createFormEditTemplate = (point, destinationData) => {
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">${offer.price}</span>
               </label>
-            </div>`)}
+            </div>`).join('')}
             </div>
           </section>
 
@@ -127,24 +127,28 @@ const createFormEditTemplate = (point, destinationData) => {
 };
 
 export default class FormEditView {
+  #element = null;
+  #point = null;
+  #destination = null;
+
   constructor(point, destination) {
-    this.point = point;
-    this.destination = destination;
+    this.#point = point;
+    this.#destination = destination;
   }
 
-  getTemplate() {
-    return createFormEditTemplate(this.point, this.destination);
+  get template() {
+    return createFormEditTemplate(this.#point, this.#destination);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
