@@ -112,7 +112,7 @@ const createFormEditTemplate = (point, destinationData) => {
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">${offer.price}</span>
               </label>
-            </div>`)}
+            </div>`).join('')}
             </div>
           </section>
 

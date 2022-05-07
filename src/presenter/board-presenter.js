@@ -9,17 +9,18 @@ export default class BoardPresenter {
 
   #boardContainer = null;
   #pointsModel = null;
-
+  #destination = null;
   #boardPoints = [];
 
   init = (boardContainer, pointsModel, destination) => {
+    this.#destination = destination;
     this.#boardContainer = boardContainer;
     this.#pointsModel = pointsModel;
     this.#boardPoints = [...this.#pointsModel.points];
 
     render(new SortView(), this.#boardContainer);
     render(this.#boardComponent, this.#boardContainer);
-    render(new FormEditView(this.#boardPoints[0], destination), this.#boardComponent.element);
+    render(new FormEditView(this.#boardPoints[0], this.#destination), this.#boardComponent.element);
 
     for (let i = 0; i < this.#boardPoints.length; i++) {
       render(new WaypointView(this.#boardPoints[i]), this.#boardComponent.element);
