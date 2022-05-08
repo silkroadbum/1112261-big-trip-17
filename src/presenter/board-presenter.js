@@ -13,22 +13,16 @@ export default class BoardPresenter {
   #destination = null;
   #boardPoints = [];
 
-  init = (boardContainer, pointsModel, destination) => {
+  constructor(boardContainer, pointsModel, destination) {
     this.#boardContainer = boardContainer;
     this.#destination = destination;
     this.#pointsModel = pointsModel;
+  }
+
+  init = () => {
     this.#boardPoints = [...this.#pointsModel.points];
 
-    if (this.#boardPoints.length === 0) {
-      render(new NoPointView(), this.#boardContainer);
-    } else {
-      render(new SortView(), this.#boardContainer);
-      render(this.#boardComponent, this.#boardContainer);
-
-      for (let i = 0; i < this.#boardPoints.length; i++) {
-        this.#renderPoint(this.#boardPoints[i]);
-      }
-    }
+    this.#renderBoard();
   };
 
   #renderPoint = (point) => {
@@ -68,5 +62,18 @@ export default class BoardPresenter {
     });
 
     render(pointComponent, this.#boardComponent.element);
+  };
+
+  #renderBoard = () => {
+    if (this.#boardPoints.length === 0) {
+      render(new NoPointView(), this.#boardContainer);
+    } else {
+      render(new SortView(), this.#boardContainer);
+      render(this.#boardComponent, this.#boardContainer);
+
+      for (let i = 0; i < this.#boardPoints.length; i++) {
+        this.#renderPoint(this.#boardPoints[i]);
+      }
+    }
   };
 }
