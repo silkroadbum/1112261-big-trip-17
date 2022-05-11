@@ -1,8 +1,9 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createFormEditTemplate = (point, destinationData) => {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
   const { descripton } = destinationData;
+
   return (
     `<li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
@@ -126,29 +127,17 @@ const createFormEditTemplate = (point, destinationData) => {
   );
 };
 
-export default class FormEditView {
-  #element = null;
+export default class FormEditView extends AbstractView {
   #point = null;
   #destination = null;
 
   constructor(point, destination) {
+    super();
     this.#point = point;
     this.#destination = destination;
   }
 
   get template() {
     return createFormEditTemplate(this.#point, this.#destination);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

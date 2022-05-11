@@ -1,9 +1,9 @@
+import { render } from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import WaypointView from '../view/waypoint-view.js';
 import NoPointView from '../view/no-point-view.js';
-import { render } from '../render.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView();

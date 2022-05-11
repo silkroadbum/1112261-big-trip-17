@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { humanizePointDate, humanizeEventDate, getDurationDates } from '../util.js';
 
 const createWaypointTemplate = (point) => {
@@ -48,27 +48,15 @@ const createWaypointTemplate = (point) => {
   );
 };
 
-export default class WaypointView {
-  #element = null;
+export default class WaypointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
   get template() {
     return createWaypointTemplate(this.#point);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
