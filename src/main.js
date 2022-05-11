@@ -9,9 +9,10 @@ const siteMainElement = document.querySelector('.page-main');
 const siteEventElement = siteMainElement.querySelector('.trip-events');
 
 const pointsModel = new PointsModel();
-const boardPresenter = new BoardPresenter();
 const destinationData = generateDestinationData();
+const boardPresenter = new BoardPresenter(siteEventElement, pointsModel, destinationData);
+
 
 render(new FilterView(), siteFilterElement);
 
-boardPresenter.init(siteEventElement, pointsModel, destinationData);
+boardPresenter.init();
