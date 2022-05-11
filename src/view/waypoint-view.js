@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizePointDate, humanizeEventDate, getDurationDates } from '../util.js';
+import { humanizePointDate, humanizeEventDate, getDurationDates } from '../utils/point.js';
 
 const createWaypointTemplate = (point) => {
   const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
