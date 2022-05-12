@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArrayElement } from '../util.js';
+import { getRandomInteger, getRandomArrayElement } from '../utils/common.js';
 import { DESTINATIONS, DESCRIPTION_OF_DESTINATION, NUM_OF_POINTS } from '../const.js';
 
 const generateDestination = () => getRandomArrayElement(DESTINATIONS);
