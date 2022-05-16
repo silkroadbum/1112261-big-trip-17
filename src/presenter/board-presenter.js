@@ -1,4 +1,4 @@
-import { render, replace } from '../framework/render.js';
+import { render, RenderPosition, replace } from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import FormEditView from '../view/form-edit-view.js';
@@ -6,7 +6,9 @@ import WaypointView from '../view/waypoint-view.js';
 import NoPointView from '../view/no-point-view.js';
 
 export default class BoardPresenter {
-  #boardComponent = new BoardView();
+  #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
+  #sortComponent = new SortView(); //создаем экземпляр вьюшки сортировки
+  #noPointComponent = new NoPointView(); //Создаем экземпляр вьюшки вывода сообщения при отсутствии точек маршрута
 
   #boardContainer = null;
   #pointsModel = null;
@@ -23,6 +25,21 @@ export default class BoardPresenter {
     this.#boardPoints = [...this.#pointsModel.points];
 
     this.#renderBoard();
+  };
+
+  #renderSort = () => {
+    render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
+  };
+
+  #renderNoPointList = () => {
+    render(this.#noPointComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
+  };
+
+  #renderPointList = () => {
+    render(this.#boardComponent, this.#boardContainer);
+    for (let i = 0; i < this.#boardPoints.length; i++) {
+      this.#renderPoint(this.#boardPoints[i]);
+    }
   };
 
   #renderPoint = (point) => {
@@ -65,14 +82,10 @@ export default class BoardPresenter {
 
   #renderBoard = () => {
     if (this.#boardPoints.length === 0) {
-      render(new NoPointView(), this.#boardContainer);
+      this.#renderNoPointList();
     } else {
-      render(new SortView(), this.#boardContainer);
-      render(this.#boardComponent, this.#boardContainer);
-
-      for (let i = 0; i < this.#boardPoints.length; i++) {
-        this.#renderPoint(this.#boardPoints[i]);
-      }
+      this.#renderSort();
+      this.#renderPointList();
     }
   };
 }
