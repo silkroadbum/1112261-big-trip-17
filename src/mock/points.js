@@ -1,6 +1,7 @@
 import { getRandomInteger, getRandomArrayElement } from '../utils/common.js';
 import { BASE_PRICE, DESTINATIONS, TYPES } from '../const.js';
 import { typesOffer } from './offers.js';
+import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax.js';
 import utc from 'dayjs/plugin/utc.js';
@@ -37,7 +38,7 @@ export const generatePoint = () => {
     dateFrom: dayjs.min(dayjs(), generateDate().dateFrom, generateDate().dateTo),
     dateTo: dayjs.max(dayjs(), generateDate().dateFrom, generateDate().dateTo),
     destination: generateDestination(),
-    id: '0',
+    id: nanoid(),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     type: typePoint,
     offers: findPointTypeOffer(typesOffer, typePoint)
