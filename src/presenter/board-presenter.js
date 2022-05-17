@@ -3,6 +3,7 @@ import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
+import { updateItem } from '../utils/common.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
@@ -25,6 +26,11 @@ export default class BoardPresenter {
     this.#boardPoints = [...this.#pointsModel.points];
 
     this.#renderBoard();
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
   #renderSort = () => {
