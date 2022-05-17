@@ -4,6 +4,7 @@ import FormEditView from '../view/form-edit-view.js';
 
 export default class PointPresenter {
   #pointListContainer = null;
+  #changeData = null;
 
   #pointComponent = null;
   #pointEditComponent = null;
@@ -11,21 +12,23 @@ export default class PointPresenter {
   #point = null;
   #destination = null;
 
-  constructor(pointListContainer) {
+  constructor(pointListContainer, destination, changeData) {
     this.#pointListContainer = pointListContainer;
+    this.#destination = destination;
+    this.#changeData = changeData;
   }
 
-  init = (point, destination) => {
+  init = (point) => {
     this.#point = point;
-    this.#destination = destination;
 
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new WaypointView(point);
-    this.#pointEditComponent = new FormEditView(point, destination);
+    this.#pointEditComponent = new FormEditView(point, this.#destination);
 
     this.#pointComponent.setClickHandler(this.#handlePointClick);
+    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setClickHandler(this.#handleFormClick);
 
@@ -59,6 +62,10 @@ export default class PointPresenter {
     replace(this.#pointComponent, this.#pointEditComponent);
   };
 
+  #handleFavoriteClick = () => {
+    this.#changeData({ ...this.#point, isFavorite: !this.#point.isFavorite });
+  };
+
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
@@ -72,7 +79,8 @@ export default class PointPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleFormSubmit = () => {
+  #handleFormSubmit = (point) => {
+    this.#changeData(point);
     this.#replaceFormToPoint();
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };

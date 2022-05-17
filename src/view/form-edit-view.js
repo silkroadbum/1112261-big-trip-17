@@ -2,8 +2,7 @@ import AbstractView from '../framework/view/abstract-view.js';
 
 const createFormEditTemplate = (point, destinationData) => {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
-  const { descripton } = destinationData;
-
+  const { description } = destinationData;
   return (
     `<li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
@@ -119,7 +118,7 @@ const createFormEditTemplate = (point, destinationData) => {
 
           <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">${descripton}</p>
+            <p class="event__destination-description">${description}</p>
           </section>
         </section>
       </form>
@@ -148,7 +147,7 @@ export default class FormEditView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(this.#point);
   };
 
   setClickHandler = (callback) => {

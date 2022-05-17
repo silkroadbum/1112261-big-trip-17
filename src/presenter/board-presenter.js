@@ -54,9 +54,9 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#boardComponent.element);
+    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handlePointChange);
 
-    pointPresenter.init(point, this.#destination);
+    pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
