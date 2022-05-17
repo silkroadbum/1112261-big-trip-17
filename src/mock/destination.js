@@ -3,14 +3,14 @@ import { DESTINATIONS, DESCRIPTION_OF_DESTINATION, NUM_OF_POINTS } from '../cons
 
 const generateDestination = () => getRandomArrayElement(DESTINATIONS);
 const generateDescription = () => getRandomArrayElement(DESCRIPTION_OF_DESTINATION);
-const generatePicutres = () => ({
+const generatePictures = () => ({
   src: `http://picsum.photos/248/152?r=${getRandomInteger(0, NUM_OF_POINTS)}`,
-  descripton: generateDescription()
+  description: generateDescription()
 });
 
 
 export const generateDestinationData = () => ({
-  descripton: generateDescription(),
+  description: generateDescription(),
   name: generateDestination(),
-  pictures: generatePicutres()
+  pictures: generatePictures()
 });
