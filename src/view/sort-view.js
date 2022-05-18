@@ -9,7 +9,7 @@ const createSortTemplate = () => (
         class="trip-sort__input  visually-hidden"
         type="radio"
         name="trip-sort"
-        value="sort-day">
+        value="sort-day" checked>
       <label class="trip-sort__btn" for="sort-day" data-sort-type="${SORT_TYPE.DEFAULT}">Day</label>
     </div>
 
@@ -41,8 +41,7 @@ const createSortTemplate = () => (
         class="trip-sort__input
         visually-hidden" type="radio"
         name="trip-sort"
-        value="sort-price"
-        checked>
+        value="sort-price">
       <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}">Price</label>
     </div>
 
