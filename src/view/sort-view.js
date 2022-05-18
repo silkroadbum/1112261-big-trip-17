@@ -75,6 +75,8 @@ export default class SortView extends AbstractView {
     }
 
     evt.preventDefault();
+    const attributeTarget = evt.target.getAttribute('for');
+    this.element.querySelector(`#${attributeTarget}`).checked = true;
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   };
 }
