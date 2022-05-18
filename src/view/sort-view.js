@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import { SORT_TYPE } from '../const.js';
 
 const createSortTemplate = () => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
@@ -9,7 +10,7 @@ const createSortTemplate = () => (
         type="radio"
         name="trip-sort"
         value="sort-day">
-      <label class="trip-sort__btn" for="sort-day">Day</label>
+      <label class="trip-sort__btn" for="sort-day" data-sort-type="${SORT_TYPE.DEFAULT}">Day</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--event">
@@ -31,7 +32,7 @@ const createSortTemplate = () => (
         type="radio"
         name="trip-sort"
         value="sort-time">
-      <label class="trip-sort__btn" for="sort-time">Time</label>
+      <label class="trip-sort__btn" for="sort-time" data-sort-type="${SORT_TYPE.TIME}>Time</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--price">
@@ -42,7 +43,7 @@ const createSortTemplate = () => (
         name="trip-sort"
         value="sort-price"
         checked>
-      <label class="trip-sort__btn" for="sort-price">Price</label>
+      <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}>Price</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--offer">
