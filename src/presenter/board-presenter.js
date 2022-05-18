@@ -37,8 +37,13 @@ export default class BoardPresenter {
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
+  #handleSortTypeChange = (sortType) => {
+
+  };
+
   #renderSort = () => {
     render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
   #renderNoPointList = () => {

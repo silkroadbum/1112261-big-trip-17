@@ -22,7 +22,7 @@ const createSortTemplate = () => (
         name="trip-sort"
         value="sort-event"
         disabled>
-      <label class="trip-sort__btn" for="sort-event">Event</label>
+      <label class="trip-sort__btn" for="sort-event" >Event</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--time">
@@ -32,7 +32,7 @@ const createSortTemplate = () => (
         type="radio"
         name="trip-sort"
         value="sort-time">
-      <label class="trip-sort__btn" for="sort-time" data-sort-type="${SORT_TYPE.TIME}>Time</label>
+      <label class="trip-sort__btn" for="sort-time" data-sort-type="${SORT_TYPE.TIME}">Time</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--price">
@@ -43,7 +43,7 @@ const createSortTemplate = () => (
         name="trip-sort"
         value="sort-price"
         checked>
-      <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}>Price</label>
+      <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}">Price</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--offer">
@@ -76,6 +76,6 @@ export default class SortView extends AbstractView {
     }
 
     evt.preventDefault();
-    this._callback.sortTypeChange(evt.target.dataset.sortType);
+    this._callback.sortTypeChange(evt.target.dataset.SortType);
   };
 }
