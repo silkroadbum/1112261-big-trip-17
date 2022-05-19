@@ -9,5 +9,14 @@ const DESCRIPTION_OF_DESTINATION = [
   'Aliquam id orci ut lectus varius viverra.',
   'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.'
 ];
+const MODE = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+const SORT_TYPE = {
+  DEFAULT: 'DEFAULT',
+  PRICE: 'PRICE',
+  TIME: 'TIME',
+};
 
-export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION };
+export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE };

@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import { SORT_TYPE } from '../const.js';
 
 const createSortTemplate = () => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
@@ -8,8 +9,8 @@ const createSortTemplate = () => (
         class="trip-sort__input  visually-hidden"
         type="radio"
         name="trip-sort"
-        value="sort-day">
-      <label class="trip-sort__btn" for="sort-day">Day</label>
+        value="sort-day" checked>
+      <label class="trip-sort__btn" for="sort-day" data-sort-type="${SORT_TYPE.DEFAULT}">Day</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--event">
@@ -21,7 +22,7 @@ const createSortTemplate = () => (
         name="trip-sort"
         value="sort-event"
         disabled>
-      <label class="trip-sort__btn" for="sort-event">Event</label>
+      <label class="trip-sort__btn" for="sort-event" >Event</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--time">
@@ -31,7 +32,7 @@ const createSortTemplate = () => (
         type="radio"
         name="trip-sort"
         value="sort-time">
-      <label class="trip-sort__btn" for="sort-time">Time</label>
+      <label class="trip-sort__btn" for="sort-time" data-sort-type="${SORT_TYPE.TIME}">Time</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--price">
@@ -40,9 +41,8 @@ const createSortTemplate = () => (
         class="trip-sort__input
         visually-hidden" type="radio"
         name="trip-sort"
-        value="sort-price"
-        checked>
-      <label class="trip-sort__btn" for="sort-price">Price</label>
+        value="sort-price">
+      <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}">Price</label>
     </div>
 
     <div class="trip-sort__item  trip-sort__item--offer">
@@ -63,4 +63,20 @@ export default class SortView extends AbstractView {
   get template() {
     return createSortTemplate();
   }
+
+  setSortTypeChangeHandler = (callback) => {
+    this._callback.sortTypeChange = callback;
+    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+  };
+
+  #sortTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'LABEL') {
+      return;
+    }
+
+    evt.preventDefault();
+    const attributeTarget = evt.target.getAttribute('for');
+    this.element.querySelector(`#${attributeTarget}`).checked = true;
+    this._callback.sortTypeChange(evt.target.dataset.sortType);
+  };
 }
