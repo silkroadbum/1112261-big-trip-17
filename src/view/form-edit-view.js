@@ -1,4 +1,12 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+
+const BLANK_POINT = {
+  type: 'taxi',
+  destination: 'Amsterdam',
+  dateFrom: null,
+  dateTo: null,
+  basePrice: null,
+};
 
 const createFormEditTemplate = (point, destinationData) => {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
@@ -126,18 +134,17 @@ const createFormEditTemplate = (point, destinationData) => {
   );
 };
 
-export default class FormEditView extends AbstractView {
-  #point = null;
+export default class FormEditView extends AbstractStatefulView {
   #destination = null;
 
-  constructor(point, destination) {
+  constructor(point = BLANK_POINT, destination) {
     super();
-    this.#point = point;
+    this._state = FormEditView.parsePointToState(point);
     this.#destination = destination;
   }
 
   get template() {
-    return createFormEditTemplate(this.#point, this.#destination);
+    return createFormEditTemplate(this._state, this.#destination);
   }
 
   setFormSubmitHandler = (callback) => {
@@ -147,7 +154,7 @@ export default class FormEditView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit(this.#point);
+    this._callback.formSubmit(FormEditView.parseStateToPoint(this._state));
   };
 
   setClickHandler = (callback) => {
@@ -158,5 +165,27 @@ export default class FormEditView extends AbstractView {
   #clickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click();
+  };
+
+  static parsePointToState = (point) => ({
+    ...point,
+    checkedType: point.type,
+    checkedDestination: point.destination
+  });
+
+  static parseStateToPoint = (state) => {
+    const point = { ...state };
+
+    if (point.checkedType !== point.type) {
+      point.type = point.checkedType;
+    }
+    if (point.checkedDestination !== point.destination) {
+      point.destination = point.checkedDestination;
+    }
+
+    delete point.checkedType;
+    delete point.checkedDestination;
+
+    return point;
   };
 }
