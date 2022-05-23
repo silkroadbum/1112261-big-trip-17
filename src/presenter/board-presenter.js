@@ -51,7 +51,7 @@ export default class BoardPresenter {
       case SORT_TYPE.TIME:
         this.#boardPoints.sort(sortByTime);
         break;
-      default:
+      case SORT_TYPE.DEFAULT:
         this.#boardPoints = [...this.#sourcedBoardPoints];
     }
 
