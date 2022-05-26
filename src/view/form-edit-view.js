@@ -36,24 +36,24 @@ const createPointTypesTemplate = (checkedType) => (
 
 const renderDestinations = (allDestinations) => allDestinations.map((destination) => `<option value=${destination.name}></option>`).join('');
 
-const createDestinationsTemplate = (type, destination, destinations) => (
+const createDestinationsTemplate = (type, destination, allDestinations) => (
   `<div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">${type}</label>
     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination}" list="destination-list-1">
     <datalist id="destination-list-1">
-      ${renderDestinations(destinations)}
+      ${renderDestinations(allDestinations)}
     </datalist>
   </div>`
 );
 
-const renderPhotos = (destinations, checkedDestination) => {
-  const pointDestination = destinations.find((destination) => destination.name === checkedDestination);
+const renderPhotos = (allDestinations, checkedDestination) => {
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
 
   return pointDestination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('');
 };
 
-const createDestinationPhotoTemplate = (destinations, checkedDestination) => {
-  const pointDestination = destinations.find((destination) => destination.name === checkedDestination);
+const createDestinationPhotoTemplate = (allDestinations, checkedDestination) => {
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
 
   return pointDestination && pointDestination.description !== '' ?
     `<section class="event__section  event__section--destination">
@@ -62,48 +62,48 @@ const createDestinationPhotoTemplate = (destinations, checkedDestination) => {
 
       <div class="event__photos-container">
         <div class="event__photos-tape">
-          ${renderPhotos(destinations, checkedDestination)}
+          ${renderPhotos(allDestinations, checkedDestination)}
         </div>
       </div>
     </section>` : '';
 };
 
-// const renderOffers = (checkedType, offers, checkedOffers) => {
-//   const pointTypeOffer = offers.find((offer) => offer.type === checkedType);
+const renderAvailableOffers = (checkedType, allOffers, checkedOffers) => {
+  const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
 
-//   return pointTypeOffer.offers.map((offer) => {
-//     const isChecked = checkedOffers.incudes(offer.id) ? 'checked' : '';
+  return pointTypeOffer.offers.map((offer) => {
+    const checked = checkedOffers.includes(offer.id) ? 'checked' : '';
 
-//     return `<div class="event__offer-selector">
-//       <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${offer.id}" type="checkbox" name="event-offer-luggage" ${isChecked}>
-//       <label class="event__offer-label" for="event-offer-luggage-${offer.id}">
-//         <span class="event__offer-title">${offer.title}</span>
-//         &plus;&euro;&nbsp;
-//         <span class="event__offer-price">${offer.price}</span>
-//       </label>
-//     </div>`;
-//   }).join('');
-// };
+    return `<div class='event__offer-selector'>
+      <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${offer.id}' type='checkbox' name='event-offer-luggage' data-offer-id=${offer.id} ${checked}>
+      <label class='event__offer-label' for='event-offer-luggage-${offer.id}'>
+        <span class='event__offer-title'>${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class='event__offer-price'>${offer.price}</span>
+      </label>
+    </div>`;
+  }).join('');
+};
 
-// const createOffersTemplate = (checkedType, offers, checkedOffers) => {
-//   const pointTypeOffer = offers.find((offer) => offer.type === checkedType);
+const createAvailableOffersTemplate = (checkedType, allOffers, checkedOffers) => {
+  const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
 
-//   return pointTypeOffer.offers.length ?
-//     `<section class="event__section  event__section--offers">
-//       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-//       <div class="event__available-offers">
-//         ${renderOffers(checkedType, offers, checkedOffers)}
-//       </div>
-//     </section>`: '';
-// };
+  return pointTypeOffer.offers.length ?
+    `<section class='event__section  event__section--offers'>
+      <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
+      <div class='event__available-offers'>
+        ${renderAvailableOffers(checkedType, allOffers, checkedOffers)}
+      </div>
+    </section>` : '';
+};
 
-const createFormEditTemplate = (point, destinationData) => {
-  const { basePrice, dateFrom, dateTo, checkedDestination, /*offers */ checkedType } = point;
+const createFormEditTemplate = (point, destinationData, offersData) => {
+  const { basePrice, dateFrom, dateTo, checkedDestination, checkedType, offers } = point;
 
   const pointTypesTemplate = createPointTypesTemplate(checkedType);
   const destinationaTempalte = createDestinationsTemplate(checkedType, checkedDestination, destinationData);
   const destinationPhotoTemplate = createDestinationPhotoTemplate(destinationData, checkedDestination);
-  // const offersTemplate = createOffersTemplate(type, ??, offers);
+  const offersTemplate = createAvailableOffersTemplate(checkedType, offersData, offers);
 
   return (
     `<li class="trip-events__item">
@@ -136,6 +136,7 @@ const createFormEditTemplate = (point, destinationData) => {
           </button>
         </header>
         <section class="event__details">
+          ${offersTemplate}
           ${destinationPhotoTemplate}
         </section>
       </form>
@@ -145,17 +146,19 @@ const createFormEditTemplate = (point, destinationData) => {
 
 export default class FormEditView extends AbstractStatefulView {
   #destination = null;
+  #offers = null;
 
-  constructor(point = BLANK_POINT, destination) {
+  constructor(point = BLANK_POINT, destination, offers) {
     super();
     this._state = FormEditView.parseTaskToState(point);
     this.#destination = destination;
+    this.#offers = offers;
 
     this.#setInnerHandlers();
   }
 
   get template() {
-    return createFormEditTemplate(this._state, this.#destination);
+    return createFormEditTemplate(this._state, this.#destination, this.#offers);
   }
 
   _restoreHandlers = () => {

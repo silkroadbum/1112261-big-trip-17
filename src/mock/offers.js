@@ -74,6 +74,7 @@ const typesOffer = [
         price: getRandomInteger(0, 100)
       },
       {
+        id: 2,
         title: 'Add luggage',
         price: getRandomInteger(0, 100)
       }
