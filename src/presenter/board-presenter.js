@@ -15,13 +15,15 @@ export default class BoardPresenter {
   #boardContainer = null;
   #pointsModel = null;
   #destination = null;
+  #offers = null;
   #boardPoints = [];
   #pointPresenter = new Map();
   #currentSortType = SORT_TYPE.DEFAULT;
   #sourcedBoardPoints = [];
 
-  constructor(boardContainer, pointsModel, destination) {
+  constructor(boardContainer, pointsModel, destination, offers) {
     this.#boardContainer = boardContainer;
+    this.#offers = offers;
     this.#destination = destination;
     this.#pointsModel = pointsModel;
   }
@@ -51,7 +53,7 @@ export default class BoardPresenter {
       case SORT_TYPE.TIME:
         this.#boardPoints.sort(sortByTime);
         break;
-      default:
+      case SORT_TYPE.DEFAULT:
         this.#boardPoints = [...this.#sourcedBoardPoints];
     }
 
@@ -90,7 +92,7 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handlePointChange, this.#handleModeChange);
+    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handlePointChange, this.#handleModeChange, this.#offers);
 
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);

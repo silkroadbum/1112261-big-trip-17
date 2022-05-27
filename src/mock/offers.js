@@ -19,7 +19,7 @@ const typesOffer = [
     type: 'bus',
     offers: [
       {
-        id: 3,
+        id: 1,
         title: 'Add luggage',
         price: getRandomInteger(0, 100)
       }
@@ -29,7 +29,7 @@ const typesOffer = [
     type: 'train',
     offers: [
       {
-        id: 4,
+        id: 1,
         title: 'Add luggage',
         price: getRandomInteger(0, 100)
       }
@@ -39,7 +39,7 @@ const typesOffer = [
     type: 'check-in',
     offers: [
       {
-        id: 5,
+        id: 1,
         title: 'Add breakfast',
         price: getRandomInteger(0, 100)
       }
@@ -49,7 +49,7 @@ const typesOffer = [
     type: 'ship',
     offers: [
       {
-        id: 6,
+        id: 1,
         title: 'Add luggage',
         price: getRandomInteger(0, 100)
       }
@@ -59,7 +59,7 @@ const typesOffer = [
     type: 'drive',
     offers: [
       {
-        id: 7,
+        id: 1,
         title: 'Rent a car',
         price: getRandomInteger(0, 100)
       }
@@ -69,12 +69,12 @@ const typesOffer = [
     type: 'flight',
     offers: [
       {
-        id: 8,
+        id: 1,
         title: 'Switch to comfort',
         price: getRandomInteger(0, 100)
       },
       {
-        id: 9,
+        id: 2,
         title: 'Add luggage',
         price: getRandomInteger(0, 100)
       }
@@ -84,7 +84,7 @@ const typesOffer = [
     type: 'sightseeing',
     offers: [
       {
-        id: 10,
+        id: 1,
         title: 'Book tickets',
         price: getRandomInteger(0, 100)
       }
@@ -94,7 +94,7 @@ const typesOffer = [
     type: 'restaurant',
     offers: [
       {
-        id: 11,
+        id: 1,
         title: 'Wi-Fi',
         price: getRandomInteger(0, 100)
       }
