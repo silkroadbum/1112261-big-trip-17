@@ -4,10 +4,11 @@ dayjs.extend(duration);
 
 const humanizePointDate = (date) => dayjs(date).format('HH:mm');
 const humanizeEventDate = (date) => dayjs(date).format('MMM D');
+const humanizePointDateAndTime = (date) => dayjs(date).format('DD/MM/YY HH:mm');
 
 //Функция возвращающая разницу между датой начала и окончания точки маршрута
 const getDurationDates = (dateStart, dateFinish) => {
-  const diff = dateFinish.diff(dateStart);
+  const diff = dayjs(dateFinish).diff(dateStart);
   const daysCount = dayjs.duration(diff).format('DD');
   const hoursCount = dayjs.duration(diff).format('HH');
   const minutesCount = dayjs.duration(diff).format('mm');
@@ -58,4 +59,4 @@ const isPointPast = (date) => dayjs().isAfter(date, 'day');
 const isPointFuture = (date) => dayjs().isBefore(date, 'day');
 const isPointCurrent = (date) => dayjs().isSame(date, 'day');
 
-export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent };
+export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime };
