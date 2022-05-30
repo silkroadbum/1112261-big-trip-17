@@ -76,8 +76,9 @@ export default class BoardPresenter {
   };
 
   #renderPointList = () => {
+    const points = this.points;
     render(this.#boardComponent, this.#boardContainer);
-    this.#renderPoints(this.#pointsModel.points);
+    this.#renderPoints(points);
   };
 
   #renderPoint = (point) => {

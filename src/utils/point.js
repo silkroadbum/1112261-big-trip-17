@@ -50,8 +50,8 @@ const compareTime = (timeA, timeB) => {
 
 //Функция сортировки по времени для передачи в метод sort
 const sortByTime = (pointA, pointB) => {
-  const timeA = pointA.dateFrom.diff(pointA.dateTo);
-  const timeB = pointB.dateFrom.diff(pointB.dateTo);
+  const timeA = dayjs(pointA.dateFrom).diff(dayjs(pointA.dateTo));
+  const timeB = dayjs(pointB.dateFrom).diff(dayjs(pointB.dateTo));
   return compareTime(timeA, timeB);
 };
 
