@@ -23,6 +23,8 @@ export default class BoardPresenter {
     this.#offers = offers;
     this.#destination = destination;
     this.#pointsModel = pointsModel;
+
+    this.#pointPresenter.addObserver(this.#handleModelEvent);
   }
 
   get points() {
@@ -43,8 +45,16 @@ export default class BoardPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
-  #handlePointChange = (updatedPoint) => {
-    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+  // #handlePointChange = (updatedPoint) => {
+  //   this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+  // };
+
+  #handleViewAction = (actionType, updateType, update) => {
+    console.log(actionType, updateType, update);
+  };
+
+  #handleModelEvent = (updateType, data) => {
+    console.log(updateType, data);
   };
 
   #handleSortTypeChange = (sortType) => {
@@ -82,7 +92,7 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handlePointChange, this.#handleModeChange, this.#offers);
+    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#handleModeChange, this.#offers);
 
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);

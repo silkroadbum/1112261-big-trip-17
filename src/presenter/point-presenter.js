@@ -1,7 +1,7 @@
 import { render, replace, remove } from '../framework/render.js';
 import WaypointView from '../view/waypoint-view.js';
 import FormEditView from '../view/form-edit-view.js';
-import { MODE } from '../const.js';
+import { MODE, UserAction, UpdateType } from '../const.js';
 
 
 export default class PointPresenter {
@@ -82,7 +82,11 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({ ...this.#point, isFavorite: !this.#point.isFavorite });
+    this.#changeData(
+      UserAction.UPDATE_TASK,
+      UpdateType.MINOR,
+      { ...this.#point, isFavorite: !this.#point.isFavorite },
+    );
   };
 
   #escKeyDownHandler = (evt) => {
@@ -99,7 +103,11 @@ export default class PointPresenter {
   };
 
   #handleFormSubmit = (point) => {
-    this.#changeData(point);
+    this.#changeData(
+      UserAction.UPDATE_TASK,
+      UpdateType.MINOR,
+      point,
+    );
     this.#replaceFormToPoint();
   };
 
