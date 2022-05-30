@@ -89,7 +89,8 @@ export default class BoardPresenter {
   };
 
   #renderBoard = () => {
-    if (this.#pointsModel.points.length === 0) {
+    const points = this.points;
+    if (points.length === 0) {
       this.#renderNoPointList();
     } else {
       this.#renderSort();
