@@ -28,6 +28,10 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
   }
 
+  get points() {
+    return this.#pointsModel.points;
+  }
+
   init = () => {
     this.#boardPoints = [...this.#pointsModel.points];
     this.#sourcedBoardPoints = [...this.#pointsModel.points];
