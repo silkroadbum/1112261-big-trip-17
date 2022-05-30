@@ -3,7 +3,6 @@ import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { updateItem } from '../utils/common.js';
 import { SORT_TYPE } from '../const.js';
 import { sortPointByPrice, sortByTime } from '../utils/point.js';
 
@@ -16,10 +15,8 @@ export default class BoardPresenter {
   #pointsModel = null;
   #destination = null;
   #offers = null;
-  #boardPoints = [];
   #pointPresenter = new Map();
   #currentSortType = SORT_TYPE.DEFAULT;
-  #sourcedBoardPoints = [];
 
   constructor(boardContainer, pointsModel, destination, offers) {
     this.#boardContainer = boardContainer;
@@ -29,13 +26,16 @@ export default class BoardPresenter {
   }
 
   get points() {
+    switch (this.#currentSortType) {
+      case SORT_TYPE.PRICE:
+        return [...this.#pointsModel.points].sort(sortPointByPrice);
+      case SORT_TYPE.TIME:
+        return [...this.#pointsModel.points].sort(sortByTime);
+    }
     return this.#pointsModel.points;
   }
 
   init = () => {
-    this.#boardPoints = [...this.#pointsModel.points];
-    this.#sourcedBoardPoints = [...this.#pointsModel.points];
-
     this.#renderBoard();
   };
 
@@ -44,24 +44,7 @@ export default class BoardPresenter {
   };
 
   #handlePointChange = (updatedPoint) => {
-    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
-    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
-  };
-
-  #sortPoints = (sortType) => {
-    switch (sortType) {
-      case SORT_TYPE.PRICE:
-        this.#boardPoints.sort(sortPointByPrice);
-        break;
-      case SORT_TYPE.TIME:
-        this.#boardPoints.sort(sortByTime);
-        break;
-      case SORT_TYPE.DEFAULT:
-        this.#boardPoints = [...this.#sourcedBoardPoints];
-    }
-
-    this.#currentSortType = sortType;
   };
 
   #handleSortTypeChange = (sortType) => {
@@ -69,7 +52,7 @@ export default class BoardPresenter {
       return;
     }
 
-    this.#sortPoints(sortType);
+    this.#currentSortType = sortType;
     this.#clearPointList();
     this.#renderPointList();
   };
@@ -88,11 +71,13 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
   };
 
+  #renderPoints = (points) => {
+    points.forEach((point) => this.#renderPoint(point));
+  };
+
   #renderPointList = () => {
     render(this.#boardComponent, this.#boardContainer);
-    for (let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
+    this.#renderPoints(this.#pointsModel.points);
   };
 
   #renderPoint = (point) => {
@@ -103,7 +88,7 @@ export default class BoardPresenter {
   };
 
   #renderBoard = () => {
-    if (this.#boardPoints.length === 0) {
+    if (this.#pointsModel.points.length === 0) {
       this.#renderNoPointList();
     } else {
       this.#renderSort();
