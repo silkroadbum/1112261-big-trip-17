@@ -1,4 +1,4 @@
-import { render, RenderPosition } from '../framework/render.js';
+import { remove, render, RenderPosition } from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
@@ -8,9 +8,9 @@ import { sortPointByPrice, sortByTime } from '../utils/point.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
-  #sortComponent = new SortView(); //создаем экземпляр вьюшки сортировки
   #noPointComponent = new NoPointView(); //Создаем экземпляр вьюшки вывода сообщения при отсутствии точек маршрута
 
+  #sortComponent = null;
   #boardContainer = null;
   #pointsModel = null;
   #destination = null;
@@ -24,7 +24,7 @@ export default class BoardPresenter {
     this.#destination = destination;
     this.#pointsModel = pointsModel;
 
-    this.#pointPresenter.addObserver(this.#handleModelEvent);
+    this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
@@ -65,8 +65,12 @@ export default class BoardPresenter {
         this.#pointPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
+        this.#clearBoard();
+        this.#renderBoard();
         break;
       case UpdateType.MAJOR:
+        this.#clearBoard({ resetSortType: true });
+        this.#renderBoard();
         break;
     }
   };
@@ -77,13 +81,16 @@ export default class BoardPresenter {
     }
 
     this.#currentSortType = sortType;
-    this.#clearPointList();
-    this.#renderPointList();
+    this.#clearBoard();
+    this.#renderBoard();
   };
 
   #renderSort = () => {
-    render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
+
+    this.#sortComponent = new SortView(this.#currentSortType);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
+
+    render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
   };
 
   #renderNoPointList = () => {
@@ -112,13 +119,27 @@ export default class BoardPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
+  #clearBoard = ({ resetSortType = false } = {}) => {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
+
+    remove(this.#sortComponent);
+    remove(this.#noPointComponent);
+
+    if (resetSortType) {
+      this.#currentSortType = SORT_TYPE.DEFAULT;
+    }
+  };
+
   #renderBoard = () => {
     const points = this.points;
-    if (points.length === 0) {
+    const pointCount = points.length;
+    if (pointCount === 0) {
       this.#renderNoPointList();
-    } else {
-      this.#renderSort();
-      this.#renderPointList();
+      return;
     }
+
+    this.#renderSort();
+    this.#renderPointList();
   };
 }
