@@ -45,19 +45,15 @@ export default class BoardPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
-  // #handlePointChange = (updatedPoint) => {
-  //   this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
-  // };
-
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
-      case UserAction.UPDATE_TASK:
+      case UserAction.UPDATE_POINT:
         this.#pointsModel.updatePoint(updateType, update);
         break;
-      case UserAction.ADD_TASK:
+      case UserAction.ADD_POINT:
         this.#pointsModel.addPoint(updateType, update);
         break;
-      case UserAction.DELETE_TASK:
+      case UserAction.DELETE_POINT:
         this.#pointsModel.deletePoint(updateType, update);
         break;
     }

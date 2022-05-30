@@ -83,7 +83,7 @@ export default class PointPresenter {
 
   #handleFavoriteClick = () => {
     this.#changeData(
-      UserAction.UPDATE_TASK,
+      UserAction.UPDATE_POINT,
       UpdateType.MINOR,
       { ...this.#point, isFavorite: !this.#point.isFavorite },
     );
@@ -104,7 +104,7 @@ export default class PointPresenter {
 
   #handleFormSubmit = (point) => {
     this.#changeData(
-      UserAction.UPDATE_TASK,
+      UserAction.UPDATE_POINT,
       UpdateType.MINOR,
       point,
     );
