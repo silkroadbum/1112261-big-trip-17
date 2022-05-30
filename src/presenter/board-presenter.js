@@ -3,7 +3,7 @@ import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { SORT_TYPE } from '../const.js';
+import { SORT_TYPE, UpdateType, UserAction } from '../const.js';
 import { sortPointByPrice, sortByTime } from '../utils/point.js';
 
 export default class BoardPresenter {
@@ -50,11 +50,29 @@ export default class BoardPresenter {
   // };
 
   #handleViewAction = (actionType, updateType, update) => {
-    console.log(actionType, updateType, update);
+    switch (actionType) {
+      case UserAction.UPDATE_TASK:
+        this.#pointsModel.updatePoint(updateType, update);
+        break;
+      case UserAction.ADD_TASK:
+        this.#pointsModel.addPoint(updateType, update);
+        break;
+      case UserAction.DELETE_TASK:
+        this.#pointsModel.deletePoint(updateType, update);
+        break;
+    }
   };
 
   #handleModelEvent = (updateType, data) => {
-    console.log(updateType, data);
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this.#pointPresenter.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        break;
+      case UpdateType.MAJOR:
+        break;
+    }
   };
 
   #handleSortTypeChange = (sortType) => {
