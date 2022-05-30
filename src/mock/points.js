@@ -13,23 +13,12 @@ const generateDestination = () => getRandomArrayElement(DESTINATIONS);
 
 const generateType = () => getRandomArrayElement(TYPES);
 
-const generateDate = () => {
-  const maxDaysGap = 2;
-  const maxTimeGap = 5;
-  const firstDayGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-  const secondDayGap = getRandomInteger(firstDayGap, maxDaysGap);
-  return {
-    dateFrom: dayjs.utc().add(firstDayGap, 'day').add(getRandomInteger(0, maxTimeGap), 'minute').add(getRandomInteger(0, maxTimeGap), 'hour'),
-    dateTo: dayjs.utc().add(secondDayGap, 'day').add(getRandomInteger(0, maxTimeGap), 'minute').add(getRandomInteger(0, maxTimeGap), 'hour'),
-  };
-};
-
 export const generatePoint = () => {
   const typePoint = generateType();
   return {
     basePrice: generateBasePrice(),
-    dateFrom: dayjs.min(dayjs(), generateDate().dateFrom, generateDate().dateTo),
-    dateTo: dayjs.max(dayjs(), generateDate().dateFrom, generateDate().dateTo),
+    dateFrom: `2022-05-${getRandomInteger(15, 20)}T0${getRandomInteger(1, 3)}:16:54.401Z`,
+    dateTo: `2022-05-${getRandomInteger(20, 25)}T0${getRandomInteger(3, 5)}:${getRandomInteger(17, 59)}:54.401Z`,
     destination: generateDestination(),
     id: nanoid(),
     isFavorite: Boolean(getRandomInteger(0, 1)),

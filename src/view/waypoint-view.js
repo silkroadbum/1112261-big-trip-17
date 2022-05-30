@@ -21,13 +21,6 @@ const createWaypointTemplate = (point, allOffers = []) => {
   const formatedDateTo = humanizePointDate(dateTo);
   const eventDate = humanizeEventDate(dateFrom);
 
-  // const elementOffers = offers.offers.map((offer) =>
-  //   `<li class="event__offer">
-  //   <span class="event__offer-title">${offer.title}</span>
-  //   &plus;&euro;&nbsp;
-  //   <span class="event__offer-price">${offer.price}</span>
-  //   </li>`).join('');
-
   const selectedOffersTemplate = createSelectedOffersTemplate(point, allOffers);
 
   return (
