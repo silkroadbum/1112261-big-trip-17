@@ -59,4 +59,6 @@ const isPointPast = (date) => dayjs().isAfter(date, 'day');
 const isPointFuture = (date) => dayjs().isBefore(date, 'day');
 const isPointCurrent = (date) => dayjs().isSame(date, 'day');
 
-export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime };
+const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+
+export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime, isDatesEqual };
