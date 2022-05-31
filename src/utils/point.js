@@ -55,9 +55,9 @@ const sortByTime = (pointA, pointB) => {
   return compareTime(timeA, timeB);
 };
 
-const isPointPast = (date) => dayjs().isAfter(date, 'day');
-const isPointFuture = (date) => dayjs().isBefore(date, 'day');
-const isPointCurrent = (date) => dayjs().isSame(date, 'day');
+const isPointPast = (date) => dayjs().isAfter(dayjs(date), 'minute');
+const isPointFuture = (date) => dayjs().isBefore(dayjs(date), 'minute');
+const isPointCurrent = (date) => dayjs().isSame(dayjs(date), 'minute');
 
 const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 

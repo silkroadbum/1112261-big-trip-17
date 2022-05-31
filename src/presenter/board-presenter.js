@@ -5,6 +5,7 @@ import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
 import { SORT_TYPE, UpdateType, UserAction } from '../const.js';
 import { sortPointByPrice, sortByTime } from '../utils/point.js';
+import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
@@ -13,28 +14,35 @@ export default class BoardPresenter {
   #sortComponent = null;
   #boardContainer = null;
   #pointsModel = null;
+  #filterModel = null;
   #destination = null;
   #offers = null;
   #pointPresenter = new Map();
   #currentSortType = SORT_TYPE.DEFAULT;
 
-  constructor(boardContainer, pointsModel, destination, offers) {
+  constructor(boardContainer, pointsModel, destination, offers, filterModel) {
     this.#boardContainer = boardContainer;
     this.#offers = offers;
     this.#destination = destination;
     this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
+    const filterType = this.#filterModel.filter;
+    const tasks = this.#pointsModel.points;
+    const filteredPoints = filter[filterType](tasks);
+
     switch (this.#currentSortType) {
       case SORT_TYPE.PRICE:
-        return [...this.#pointsModel.points].sort(sortPointByPrice);
+        return filteredPoints.sort(sortPointByPrice);
       case SORT_TYPE.TIME:
-        return [...this.#pointsModel.points].sort(sortByTime);
+        return filteredPoints.sort(sortByTime);
     }
-    return this.#pointsModel.points;
+    return filteredPoints;
   }
 
   init = () => {

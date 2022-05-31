@@ -11,7 +11,7 @@ const siteEventElement = siteMainElement.querySelector('.trip-events');
 
 const pointsModel = new PointsModel();
 const filterModel = new FilterModel();
-const boardPresenter = new BoardPresenter(siteEventElement, pointsModel, allDestinationData, typesOffer);
+const boardPresenter = new BoardPresenter(siteEventElement, pointsModel, allDestinationData, typesOffer, filterModel);
 const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, pointsModel);
 
 filterPresenter.init();
