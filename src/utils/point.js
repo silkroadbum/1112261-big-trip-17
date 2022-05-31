@@ -43,6 +43,8 @@ const sortByTime = (pointA, pointB) => {
   const timeB = dayjs(pointB.dateFrom).diff(dayjs(pointB.dateTo));
   return comparePoint(timeB, timeA);
 };
+//Функция сортировки по дате начала точки маршрута (дефолтная сортировка)
+const sortPointUp = (taskA, taskB) => dayjs(taskA.dateFrom).diff(dayjs(taskB.dateFrom));
 
 const isPointPast = (date) => dayjs().isAfter(date, 'minute');
 const isPointFuture = (date) => dayjs().isBefore(date, 'minute');
@@ -50,4 +52,4 @@ const isPointCurrent = (date) => dayjs().isSame(date, 'minute');
 
 const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 
-export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime, isDatesEqual };
+export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime, isDatesEqual, sortPointUp };

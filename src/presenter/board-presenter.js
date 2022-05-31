@@ -4,7 +4,7 @@ import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
 import { SORT_TYPE, UpdateType, UserAction } from '../const.js';
-import { sortPointByPrice, sortByTime } from '../utils/point.js';
+import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
@@ -42,7 +42,7 @@ export default class BoardPresenter {
       case SORT_TYPE.TIME:
         return filteredPoints.sort(sortByTime);
       case SORT_TYPE.DEFAULT:
-        return filteredPoints.sort();
+        return filteredPoints.sort(sortPointUp);
     }
     return filteredPoints;
   }
