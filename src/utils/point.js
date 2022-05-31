@@ -23,41 +23,30 @@ const getDurationDates = (dateStart, dateFinish) => {
   }
 };
 
-//Сравнение цены
-const comparePrice = (priceA, priceB) => {
-  if (priceA > priceB) {
+//Сравнение точек
+const comparePoint = (pointA, pointB) => {
+  if (pointA > pointB) {
     return -1;
   }
-  if (priceA < priceB) {
+  if (pointA < pointB) {
     return 1;
   }
   return 0;
 };
 
 //Функция сортировки по цене для передачи в метод sort
-const sortPointByPrice = (pointA, pointB) => comparePrice(pointA.basePrice, pointB.basePrice);
-
-//Сравнение времени
-const compareTime = (timeA, timeB) => {
-  if (timeA > timeB) {
-    return 1;
-  }
-  if (timeA < timeB) {
-    return -1;
-  }
-  return 0;
-};
+const sortPointByPrice = (pointA, pointB) => comparePoint(pointA.basePrice, pointB.basePrice);
 
 //Функция сортировки по времени для передачи в метод sort
 const sortByTime = (pointA, pointB) => {
   const timeA = dayjs(pointA.dateFrom).diff(dayjs(pointA.dateTo));
   const timeB = dayjs(pointB.dateFrom).diff(dayjs(pointB.dateTo));
-  return compareTime(timeA, timeB);
+  return comparePoint(timeB, timeA);
 };
 
-const isPointPast = (date) => dayjs().isAfter(dayjs(date), 'minute');
-const isPointFuture = (date) => dayjs().isBefore(dayjs(date), 'minute');
-const isPointCurrent = (date) => dayjs().isSame(dayjs(date), 'minute');
+const isPointPast = (date) => dayjs().isAfter(date, 'minute');
+const isPointFuture = (date) => dayjs().isBefore(date, 'minute');
+const isPointCurrent = (date) => dayjs().isSame(date, 'minute');
 
 const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 

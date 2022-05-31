@@ -41,6 +41,8 @@ export default class BoardPresenter {
         return filteredPoints.sort(sortPointByPrice);
       case SORT_TYPE.TIME:
         return filteredPoints.sort(sortByTime);
+      case SORT_TYPE.DEFAULT:
+        return filteredPoints.sort();
     }
     return filteredPoints;
   }
