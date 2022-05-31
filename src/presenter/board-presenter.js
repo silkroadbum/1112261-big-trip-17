@@ -3,13 +3,13 @@ import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { SORT_TYPE, UpdateType, UserAction } from '../const.js';
+import { SORT_TYPE, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
 import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
-  #noPointComponent = new NoPointView(); //Создаем экземпляр вьюшки вывода сообщения при отсутствии точек маршрута
+  #noPointComponent = null;
 
   #sortComponent = null;
   #boardContainer = null;
@@ -19,6 +19,7 @@ export default class BoardPresenter {
   #offers = null;
   #pointPresenter = new Map();
   #currentSortType = SORT_TYPE.DEFAULT;
+  #filterType = FILTER_TYPE.EVERYTHING;
 
   constructor(boardContainer, pointsModel, destination, offers, filterModel) {
     this.#boardContainer = boardContainer;
@@ -32,9 +33,9 @@ export default class BoardPresenter {
   }
 
   get points() {
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const tasks = this.#pointsModel.points;
-    const filteredPoints = filter[filterType](tasks);
+    const filteredPoints = filter[this.#filterType](tasks);
 
     switch (this.#currentSortType) {
       case SORT_TYPE.PRICE:
@@ -104,6 +105,7 @@ export default class BoardPresenter {
   };
 
   #renderNoPointList = () => {
+    this.#noPointComponent = new NoPointView(this.#filterType);
     render(this.#noPointComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
   };
 
@@ -123,7 +125,10 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
-    remove(this.#noPointComponent);
+
+    if (this.#noPointComponent) {
+      remove(this.#noPointComponent);
+    }
 
     if (resetSortType) {
       this.#currentSortType = SORT_TYPE.DEFAULT;
