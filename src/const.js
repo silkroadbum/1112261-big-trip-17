@@ -19,9 +19,9 @@ const SORT_TYPE = {
   TIME: 'TIME',
 };
 const FILTER_TYPE = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past',
+  EVERYTHING: 'EVERYTHING',
+  FUTURE: 'FUTURE',
+  PAST: 'PAST',
 };
 const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
