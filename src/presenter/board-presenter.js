@@ -30,7 +30,7 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
-    this.#pointNewPresenter = new PointNewPresenter(this.#boardContainer, this.#destination, this.#handleViewAction, this.#offers);
+    this.#pointNewPresenter = new PointNewPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#offers);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
