@@ -2,9 +2,10 @@ import { render, remove, RenderPosition } from '../framework/render.js';
 import FormEditView from '../view/form-edit-view.js';
 import { UserAction, UpdateType } from '../const.js';
 import { nanoid } from 'nanoid';
+import { BLANK_POINT } from '../const.js';
 
 
-export default class PointPresenter {
+export default class PointNewPresenter {
   #pointListContainer = null;
   #changeData = null;
   #pointEditComponent = null;
@@ -27,7 +28,7 @@ export default class PointPresenter {
       return;
     }
 
-    this.#pointEditComponent = new FormEditView();
+    this.#pointEditComponent = new FormEditView(BLANK_POINT, this.#destination, this.#offers);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setClickHandler(this.#handleFormClick);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);

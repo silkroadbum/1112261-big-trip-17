@@ -34,4 +34,13 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
-export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType };
+const BLANK_POINT = {
+  basePrice: '',
+  dateFrom: null,
+  dateTo: null,
+  destination: 'Amsterdam',
+  type: 'taxi',
+  offers: [],
+};
+
+export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT };

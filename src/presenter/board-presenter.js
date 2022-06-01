@@ -3,6 +3,7 @@ import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
+import PointNewPresenter from './point-new-presenter.js';
 import { SORT_TYPE, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
 import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
@@ -18,6 +19,7 @@ export default class BoardPresenter {
   #destination = null;
   #offers = null;
   #pointPresenter = new Map();
+  #pointNewPresenter = null;
   #currentSortType = SORT_TYPE.DEFAULT;
   #filterType = FILTER_TYPE.EVERYTHING;
 
@@ -27,6 +29,8 @@ export default class BoardPresenter {
     this.#destination = destination;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
+
+    this.#pointNewPresenter = new PointNewPresenter(this.#boardContainer, this.#destination, this.#handleViewAction, this.#offers);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -52,7 +56,14 @@ export default class BoardPresenter {
     this.#renderBoard();
   };
 
+  createPoint = (callback) => {
+    this.#currentSortType = SORT_TYPE.DEFAULT;
+    this.#filterModel.setFilter(UpdateType.MINOR, FILTER_TYPE.EVERYTHING);
+    this.#pointNewPresenter.init(callback);
+  };
+
   #handleModeChange = () => {
+    this.#pointNewPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
@@ -121,6 +132,7 @@ export default class BoardPresenter {
   };
 
   #clearBoard = ({ resetSortType = false } = {}) => {
+    this.#pointNewPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
 

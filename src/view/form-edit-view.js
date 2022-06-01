@@ -2,16 +2,9 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizePointDateAndTime } from '../utils/point.js';
 import { TYPES } from '../const.js';
 import flatpickr from 'flatpickr';
+import { BLANK_POINT } from '../const.js';
 
 import 'flatpickr/dist/flatpickr.min.css';
-
-const BLANK_POINT = {
-  type: 'taxi',
-  destination: 'Amsterdam',
-  dateFrom: null,
-  dateTo: null,
-  basePrice: null,
-};
 
 const renderPointTypes = (types, checkedType) => Object.values(types).map((type) => {
   const checked = type === checkedType ? 'checked' : '';
