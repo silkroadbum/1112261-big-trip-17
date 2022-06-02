@@ -1,7 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { SORT_TYPE } from '../const.js';
 
-const createSortTemplate = () => (
+const createSortTemplate = (currentSortType) => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
       <input
@@ -9,7 +9,8 @@ const createSortTemplate = () => (
         class="trip-sort__input  visually-hidden"
         type="radio"
         name="trip-sort"
-        value="sort-day" checked>
+        value="sort-day"
+        ${currentSortType === SORT_TYPE.DEFAULT ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-day" data-sort-type="${SORT_TYPE.DEFAULT}">Day</label>
     </div>
 
@@ -31,7 +32,8 @@ const createSortTemplate = () => (
         class="trip-sort__input  visually-hidden"
         type="radio"
         name="trip-sort"
-        value="sort-time">
+        value="sort-time"
+        ${currentSortType === SORT_TYPE.TIME ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-time" data-sort-type="${SORT_TYPE.TIME}">Time</label>
     </div>
 
@@ -41,7 +43,8 @@ const createSortTemplate = () => (
         class="trip-sort__input
         visually-hidden" type="radio"
         name="trip-sort"
-        value="sort-price">
+        value="sort-price"
+        ${currentSortType === SORT_TYPE.PRICE ? 'checked' : ''}>
       <label class="trip-sort__btn" for="sort-price" data-sort-type="${SORT_TYPE.PRICE}">Price</label>
     </div>
 
@@ -60,8 +63,15 @@ const createSortTemplate = () => (
 );
 
 export default class SortView extends AbstractView {
+  #currentSortType = null;
+
+  constructor(currentSortType) {
+    super();
+    this.#currentSortType = currentSortType;
+  }
+
   get template() {
-    return createSortTemplate();
+    return createSortTemplate(this.#currentSortType);
   }
 
   setSortTypeChangeHandler = (callback) => {
@@ -70,15 +80,11 @@ export default class SortView extends AbstractView {
   };
 
   #sortTypeChangeHandler = (evt) => {
-    if (evt.target.tagName !== 'LABEL') {
+    if (evt.target.tagName !== 'LABEL' || !evt.target.dataset.sortType) {
       return;
     }
 
     evt.preventDefault();
-    const attributeTarget = evt.target.getAttribute('for');
-    if (attributeTarget === 'sort-day' || attributeTarget === 'sort-time' || attributeTarget === 'sort-price') {
-      this.element.querySelector(`#${attributeTarget}`).checked = true;
-    }
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   };
 }

@@ -19,9 +19,28 @@ const SORT_TYPE = {
   TIME: 'TIME',
 };
 const FILTER_TYPE = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past',
+  EVERYTHING: 'EVERYTHING',
+  FUTURE: 'FUTURE',
+  PAST: 'PAST',
+};
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
 };
 
-export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE };
+const BLANK_POINT = {
+  basePrice: '',
+  dateFrom: null,
+  dateTo: null,
+  destination: 'Amsterdam',
+  type: 'taxi',
+  offers: [],
+};
+
+export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT };

@@ -2,16 +2,10 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizePointDateAndTime } from '../utils/point.js';
 import { TYPES } from '../const.js';
 import flatpickr from 'flatpickr';
+import { BLANK_POINT } from '../const.js';
+import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
-
-const BLANK_POINT = {
-  type: 'taxi',
-  destination: 'Amsterdam',
-  dateFrom: null,
-  dateTo: null,
-  basePrice: null,
-};
 
 const renderPointTypes = (types, checkedType) => Object.values(types).map((type) => {
   const checked = type === checkedType ? 'checked' : '';
@@ -43,7 +37,7 @@ const renderDestinations = (allDestinations) => allDestinations.map((destination
 const createDestinationsTemplate = (type, destination, allDestinations) => (
   `<div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">${type}</label>
-    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination}" list="destination-list-1">
+    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination)}" list="destination-list-1">
     <datalist id="destination-list-1">
       ${renderDestinations(allDestinations)}
     </datalist>
@@ -186,6 +180,7 @@ export default class FormEditView extends AbstractStatefulView {
     this.#setDateToPicker();
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setClickHandler(this._callback.click);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   };
 
   reset = (point) => {
@@ -202,6 +197,16 @@ export default class FormEditView extends AbstractStatefulView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit(FormEditView.parseStateToPoint(this._state));
+  };
+
+  setDeleteClickHandler = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.deleteClick(FormEditView.parseStateToPoint(this._state));
   };
 
   setClickHandler = (callback) => {
