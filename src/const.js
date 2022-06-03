@@ -33,7 +33,6 @@ const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
 };
-
 const BLANK_POINT = {
   basePrice: '',
   dateFrom: null,
@@ -42,5 +41,9 @@ const BLANK_POINT = {
   type: 'taxi',
   offers: [],
 };
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+};
 
-export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT };
+export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method };
