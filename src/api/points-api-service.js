@@ -1,9 +1,10 @@
 import ApiService from '../framework/api-service';
 import { Method } from '../const';
 
-export default class PointApiService extends ApiService {
+export default class PointsApiService extends ApiService {
   get points() {
-    return this._load({ url: 'points' }).then(ApiService.parseResponse);
+    return this._load({ url: 'points' })
+      .then(ApiService.parseResponse);
   }
 
   updatePoint = async (point) => {
@@ -14,8 +15,8 @@ export default class PointApiService extends ApiService {
       header: new Headers({ 'Content-Type': 'application/json' }),
     });
 
-    const parsedREsponse = await ApiService.parseResponse(response);
+    const parsedResponse = await ApiService.parseResponse(response);
 
-    return parsedREsponse;
+    return parsedResponse;
   };
 }

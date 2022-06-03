@@ -6,13 +6,15 @@ import { allDestinationData } from './mock/destination.js';
 import { typesOffer } from './mock/offers.js';
 import { render, RenderPosition } from './framework/render.js';
 import NewPointButtonView from './view/new-point-button-view.js';
+import PointsApiService from './api/points-api-service.js';
+import { AUTHORIZATION, END_POINT } from './const.js';
 
 const siteFilterElement = document.querySelector('.trip-controls__filters');
 const siteMainElement = document.querySelector('.page-main');
 const siteEventElement = siteMainElement.querySelector('.trip-events');
 const siteHeaderElement = document.querySelector('.trip-main__trip-controls');
 
-const pointsModel = new PointsModel();
+const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION));
 const filterModel = new FilterModel();
 const boardPresenter = new BoardPresenter(siteEventElement, pointsModel, allDestinationData, typesOffer, filterModel);
 const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, pointsModel);

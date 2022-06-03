@@ -2,6 +2,8 @@ const NUM_OF_POINTS = 12;
 const BASE_PRICE = [20, 50, 160, 180, 600];
 const DESTINATIONS = ['Amsterdam', 'Chamonix', 'Geneva'];
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const AUTHORIZATION = 'Basic h2oj7mnk99';
+const END_POINT = 'https://17.ecmascript.pages.academy/big-trip/';
 const DESCRIPTION_OF_DESTINATION = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -46,4 +48,4 @@ const Method = {
   PUT: 'PUT',
 };
 
-export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method };
+export { NUM_OF_POINTS, BASE_PRICE, DESTINATIONS, TYPES, DESCRIPTION_OF_DESTINATION, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
