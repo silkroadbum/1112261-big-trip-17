@@ -1,5 +1,3 @@
-import { getRandomInteger } from '../utils/common.js';
-
 const typesOffer = [
   {
     type: 'taxi',
@@ -7,11 +5,11 @@ const typesOffer = [
       {
         id: 1,
         title: 'Upgrade to a business class',
-        price: getRandomInteger(0, 100)
+        price: 50
       }, {
         id: 2,
         title: 'Choose the radio station',
-        price: getRandomInteger(0, 100)
+        price: 100
       }
     ]
   },
@@ -21,7 +19,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Add luggage',
-        price: getRandomInteger(0, 100)
+        price: 30
       }
     ]
   },
@@ -31,7 +29,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Add luggage',
-        price: getRandomInteger(0, 100)
+        price: 20
       }
     ]
   },
@@ -41,7 +39,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Add breakfast',
-        price: getRandomInteger(0, 100)
+        price: 40
       }
     ]
   },
@@ -51,7 +49,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Add luggage',
-        price: getRandomInteger(0, 100)
+        price: 50
       }
     ]
   },
@@ -61,7 +59,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Rent a car',
-        price: getRandomInteger(0, 100)
+        price: 40
       }
     ]
   },
@@ -71,12 +69,12 @@ const typesOffer = [
       {
         id: 1,
         title: 'Switch to comfort',
-        price: getRandomInteger(0, 100)
+        price: 80
       },
       {
         id: 2,
         title: 'Add luggage',
-        price: getRandomInteger(0, 100)
+        price: 90
       }
     ]
   },
@@ -86,7 +84,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Book tickets',
-        price: getRandomInteger(0, 100)
+        price: 100
       }
     ]
   },
@@ -96,7 +94,7 @@ const typesOffer = [
       {
         id: 1,
         title: 'Wi-Fi',
-        price: getRandomInteger(0, 100)
+        price: 20
       }
     ]
   },

@@ -35,3 +35,4 @@ newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
 
 filterPresenter.init();
 boardPresenter.init();
+pointsModel.init();
