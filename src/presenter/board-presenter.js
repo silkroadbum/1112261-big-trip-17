@@ -2,6 +2,7 @@ import { remove, render, RenderPosition } from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import PointNewPresenter from './point-new-presenter.js';
 import { SORT_TYPE, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
@@ -10,8 +11,9 @@ import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
-  #noPointComponent = null;
+  #loadingComponent = new LoadingView();
 
+  #noPointComponent = null;
   #sortComponent = null;
   #boardContainer = null;
   #pointsModel = null;
@@ -22,6 +24,7 @@ export default class BoardPresenter {
   #pointNewPresenter = null;
   #currentSortType = SORT_TYPE.DEFAULT;
   #filterType = FILTER_TYPE.EVERYTHING;
+  #isLoading = true;
 
   constructor(boardContainer, pointsModel, destination, offers, filterModel) {
     this.#boardContainer = boardContainer;
@@ -94,6 +97,11 @@ export default class BoardPresenter {
         this.#clearBoard({ resetSortType: true });
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -131,12 +139,17 @@ export default class BoardPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
+  #renderLoading = () => {
+    render(this.#loadingComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
+  };
+
   #clearBoard = ({ resetSortType = false } = {}) => {
     this.#pointNewPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -148,15 +161,22 @@ export default class BoardPresenter {
   };
 
   #renderBoard = () => {
+    render(this.#boardComponent, this.#boardContainer);
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     const points = this.points;
     const pointCount = points.length;
+
     if (pointCount === 0) {
       this.#renderNoPointList();
       return;
     }
 
     this.#renderSort();
-    render(this.#boardComponent, this.#boardContainer);
     this.#renderPoints(points);
   };
 }

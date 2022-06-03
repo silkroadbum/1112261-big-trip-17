@@ -1,35 +1,63 @@
 const allDestinationData = [
   {
-    description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Chamonix',
+    description: 'Valencia, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Valencia',
     pictures: [
       {
         src: 'http://picsum.photos/300/200?r=1',
-        description: 'Chamonix parliament building'
+        description: 'Valencia parliament building'
       }
     ]
   },
   {
-    description: 'Amsterdam, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Amsterdam',
+    description: 'Venice, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Venice',
     pictures: [
       {
         src: 'http://picsum.photos/300/200?r=2',
-        description: 'Amsterdam parliament building'
+        description: 'Venice parliament building'
       }
     ]
   },
   {
-    description: 'Geneva, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Geneva',
+    description: 'Oslo, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Oslo',
     pictures: [
       {
         src: 'http://picsum.photos/300/200?r=3',
-        description: 'Geneva parliament building'
+        description: 'Oslo parliament building'
       },
       {
         src: 'http://picsum.photos/300/200?r=4',
-        description: 'Geneva parliament building'
+        description: 'Oslo parliament building'
+      }
+    ]
+  },
+  {
+    description: 'Barcelona, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Barcelona',
+    pictures: [
+      {
+        src: 'http://picsum.photos/300/200?r=5',
+        description: 'Barcelona parliament building'
+      },
+      {
+        src: 'http://picsum.photos/300/200?r=6',
+        description: 'Barcelona parliament building'
+      }
+    ]
+  },
+  {
+    description: 'Kioto, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Kioto',
+    pictures: [
+      {
+        src: 'http://picsum.photos/300/200?r=7',
+        description: 'Kioto parliament building'
+      },
+      {
+        src: 'http://picsum.photos/300/200?r=8',
+        description: 'Kioto parliament building'
       }
     ]
   },
