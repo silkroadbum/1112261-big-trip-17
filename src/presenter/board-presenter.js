@@ -41,8 +41,8 @@ export default class BoardPresenter {
 
   get points() {
     this.#filterType = this.#filterModel.filter;
-    const tasks = this.#pointsModel.points;
-    const filteredPoints = filter[this.#filterType](tasks);
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
       case SORT_TYPE.PRICE:
