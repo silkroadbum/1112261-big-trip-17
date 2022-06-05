@@ -35,8 +35,9 @@ const BLANK_POINT = {
     name: ' Surgut',
     pictures: [],
   },
-  type: 'taxi',
+  isFavorite: false,
   offers: [],
+  type: 'taxi',
 };
 const Method = {
   GET: 'GET',
