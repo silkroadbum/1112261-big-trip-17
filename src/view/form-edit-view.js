@@ -3,7 +3,7 @@ import { humanizePointDateAndTime } from '../utils/point.js';
 import { TYPES } from '../const.js';
 import flatpickr from 'flatpickr';
 import { BLANK_POINT } from '../const.js';
-// import he from 'he';
+import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -37,7 +37,7 @@ const renderDestinations = (allDestinations) => allDestinations.map((destination
 const createDestinationsTemplate = (type, destination, allDestinations) => (
   `<div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">${type}</label>
-    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination.name)}" list="destination-list-1">
     <datalist id="destination-list-1">
       ${renderDestinations(allDestinations)}
     </datalist>
