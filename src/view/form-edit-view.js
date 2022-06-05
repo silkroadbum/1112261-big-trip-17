@@ -69,30 +69,35 @@ const createDestinationPhotoTemplate = (allDestinations, checkedDestination) => 
 const renderAvailableOffers = (checkedType, allOffers, checkedOffers) => {
   const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
 
-  return pointTypeOffer.offers.map((offer) => {
-    const checked = checkedOffers.includes(offer.id) ? 'checked' : '';
+  if (pointTypeOffer !== undefined) {
+    return pointTypeOffer.offers.map((offer) => {
+      const checked = checkedOffers.includes(offer.id) ? 'checked' : '';
 
-    return `<div class='event__offer-selector'>
-      <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${offer.id}' type='checkbox' name='event-offer-luggage' data-offer-id=${offer.id} ${checked}>
-      <label class='event__offer-label' for='event-offer-luggage-${offer.id}'>
-        <span class='event__offer-title'>${offer.title}</span>
-        &plus;&euro;&nbsp;
-        <span class='event__offer-price'>${offer.price}</span>
-      </label>
-    </div>`;
-  }).join('');
+      return `<div class='event__offer-selector'>
+        <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${offer.id}' type='checkbox' name='event-offer-luggage' data-offer-id=${offer.id} ${checked}>
+        <label class='event__offer-label' for='event-offer-luggage-${offer.id}'>
+          <span class='event__offer-title'>${offer.title}</span>
+          &plus;&euro;&nbsp;
+          <span class='event__offer-price'>${offer.price}</span>
+        </label>
+      </div>`;
+    }).join('');
+  }
+  return '';
 };
 
 const createAvailableOffersTemplate = (checkedType, allOffers, checkedOffers) => {
   const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
-
-  return pointTypeOffer.offers.length ?
-    `<section class='event__section  event__section--offers'>
-      <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
-      <div class='event__available-offers'>
-        ${renderAvailableOffers(checkedType, allOffers, checkedOffers)}
-      </div>
-    </section>` : '';
+  if (pointTypeOffer !== undefined) {
+    return pointTypeOffer.offers.length ?
+      `<section class='event__section  event__section--offers'>
+        <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
+        <div class='event__available-offers'>
+          ${renderAvailableOffers(checkedType, allOffers, checkedOffers)}
+        </div>
+      </section>` : '';
+  }
+  return '';
 };
 
 const createFormEditTemplate = (point, destinationData, offersData) => {

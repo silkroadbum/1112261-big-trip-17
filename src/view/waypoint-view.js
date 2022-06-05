@@ -5,12 +5,15 @@ import he from 'he';
 const renderSelectedOffers = (point, offers) => {
   const pointTypeOffer = offers.find((offer) => offer.type === point.type);
 
-  return pointTypeOffer.offers.map((offer) => point.offers.includes(offer.id) ?
-    `<li class="event__offer">
+  if (pointTypeOffer !== undefined) {
+    return pointTypeOffer.offers.map((offer) => point.offers.includes(offer.id) ?
+      `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
       +€&nbsp;
       <span class="event__offer-price">${offer.price}</span>
     </li>` : '').join('');
+  }
+  return '';
 };
 
 const createSelectedOffersTemplate = (point, offers) => `<ul class="event__selected-offers">${renderSelectedOffers(point, offers)}</ul>`;

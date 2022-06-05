@@ -9,25 +9,27 @@ export default class PointPresenter {
   #pointListContainer = null;
   #changeData = null;
   #changeMode = null;
+  #offersModel = null;
 
   #pointComponent = null;
   #pointEditComponent = null;
 
   #point = null;
   #destination = null;
-  #offers = null;
+  #offers = [];
   #mode = MODE.DEFAULT;
 
-  constructor(pointListContainer, destination, changeData, changeMode, offers) {
+  constructor(pointListContainer, destination, changeData, changeMode, offersModel) {
     this.#pointListContainer = pointListContainer;
     this.#destination = destination;
-    this.#offers = offers;
+    this.#offersModel = offersModel;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
   }
 
   init = (point) => {
     this.#point = point;
+    this.#offers = this.#offersModel.offers;
 
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
