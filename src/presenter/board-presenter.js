@@ -19,22 +19,21 @@ export default class BoardPresenter {
   #pointsModel = null;
   #offersModel = null;
   #filterModel = null;
-  #destination = null;
-  // #offers = null;
+  #destinationsModel = null;
   #pointPresenter = new Map();
   #pointNewPresenter = null;
   #currentSortType = SORT_TYPE.DEFAULT;
   #filterType = FILTER_TYPE.EVERYTHING;
   #isLoading = true;
 
-  constructor(boardContainer, pointsModel, destination, filterModel, offersModel) {
+  constructor(boardContainer, pointsModel, destinationsModel, filterModel, offersModel) {
     this.#boardContainer = boardContainer;
-    this.#destination = destination;
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
+    this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
 
-    this.#pointNewPresenter = new PointNewPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#offersModel);
+    this.#pointNewPresenter = new PointNewPresenter(this.#boardComponent.element, this.#destinationsModel, this.#handleViewAction, this.#offersModel);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -134,7 +133,7 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#handleModeChange, this.#offersModel);
+    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destinationsModel, this.#handleViewAction, this.#handleModeChange, this.#offersModel);
 
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
