@@ -33,7 +33,7 @@ export default class PointsModel extends Observable {
     }
 
     try {
-      const response = await this.#pointsApiService.updatePoint(update);
+      const response = await this.#pointsApiService.updateTask(update);
       const updatedPoint = this.#adaptToClient(response);
 
       this.#points = [
