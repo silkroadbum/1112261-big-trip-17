@@ -61,6 +61,34 @@ const allDestinationData = [
       }
     ]
   },
+  {
+    description: 'Naples, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Naples',
+    pictures: [
+      {
+        src: 'http://picsum.photos/300/200?r=7',
+        description: 'Naples parliament building'
+      },
+      {
+        src: 'http://picsum.photos/300/200?r=8',
+        description: 'Naples parliament building'
+      }
+    ]
+  },
+  {
+    description: 'Den Haag, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: 'Den Haag',
+    pictures: [
+      {
+        src: 'http://picsum.photos/300/200?r=7',
+        description: 'Den Haag parliament building'
+      },
+      {
+        src: 'http://picsum.photos/300/200?r=8',
+        description: 'Den Haag parliament building'
+      }
+    ]
+  },
 ];
 
 export { allDestinationData };

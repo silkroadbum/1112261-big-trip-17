@@ -38,7 +38,11 @@ const BLANK_POINT = {
   basePrice: '',
   dateFrom: null,
   dateTo: null,
-  destination: 'Amsterdam',
+  destination: {
+    description: ' ',
+    name: ' Surgut',
+    pictures: [],
+  },
   type: 'taxi',
   offers: [],
 };

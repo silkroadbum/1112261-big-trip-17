@@ -45,13 +45,13 @@ const createDestinationsTemplate = (type, destination, allDestinations) => (
 );
 
 const renderPhotos = (allDestinations, checkedDestination) => {
-  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination.name);
 
   return pointDestination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('');
 };
 
 const createDestinationPhotoTemplate = (allDestinations, checkedDestination) => {
-  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination.name);
 
   return pointDestination && pointDestination.description !== '' ?
     `<section class="event__section  event__section--destination">
@@ -152,7 +152,7 @@ export default class FormEditView extends AbstractStatefulView {
 
   constructor(point = BLANK_POINT, destination, offers) {
     super();
-    this._state = FormEditView.parseTaskToState(point);
+    this._state = FormEditView.parsePointToState(point);
     this.#destination = destination;
     this.#offers = offers;
 
@@ -232,10 +232,8 @@ export default class FormEditView extends AbstractStatefulView {
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
-    const destination = this.#destination.filter((dest) => dest.name === evt.target.value);
-    this.updateElement({
-      checkedDestination: destination,
-    });
+    this._state.checkedDestination.name = evt.target.value;
+    this.updateElement({ checkedDestination: this._state.checkedDestination });
   };
 
   #offersToggleHandler = (evt) => {
@@ -281,6 +279,7 @@ export default class FormEditView extends AbstractStatefulView {
         time_24hr: true,
         dateFormat: 'd/m/y H:i',
         defaultDate: this._state.dateFrom,
+        maxDate: this._state.dateTo,
         onChange: this.#dateFromChangeHandler,
       },
     );
@@ -310,13 +309,14 @@ export default class FormEditView extends AbstractStatefulView {
     }
   };
 
-  static parseTaskToState = (point) => ({
+  static parsePointToState = (point) => ({
     ...point,
     checkedType: point.type,
     checkedDestination: point.destination,
     price: point.basePrice,
     checkedOffers: point.offers,
   });
+
 
   static parseStateToPoint = (state) => {
     const point = { ...state };
