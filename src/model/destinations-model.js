@@ -19,6 +19,7 @@ export default class DestinationsModel extends Observable {
       this.#destinations = await this.#destinationsApiService.destinations;
     } catch (err) {
       this.#destinations = [];
+      throw new Error('Can\'t get destinations');
     }
     this._notify(UpdateType.INIT);
   };
