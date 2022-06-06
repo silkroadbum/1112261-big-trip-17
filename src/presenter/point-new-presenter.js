@@ -1,8 +1,7 @@
 import { render, remove, RenderPosition } from '../framework/render.js';
 import FormEditView from '../view/form-edit-view.js';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, BLANK_POINT } from '../const.js';
 import { nanoid } from 'nanoid';
-import { BLANK_POINT } from '../const.js';
 
 
 export default class PointNewPresenter {

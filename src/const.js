@@ -1,11 +1,11 @@
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const AUTHORIZATION = 'Basic h2oj7mnk99';
 const END_POINT = 'https://17.ecmascript.pages.academy/big-trip/';
-const MODE = {
+const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
 };
-const SORT_TYPE = {
+const SortType = {
   DEFAULT: 'DEFAULT',
   PRICE: 'PRICE',
   TIME: 'TIME',
@@ -44,4 +44,4 @@ const Method = {
   PUT: 'PUT',
 };
 
-export { TYPES, MODE, SORT_TYPE, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
+export { TYPES, Mode, SortType, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };

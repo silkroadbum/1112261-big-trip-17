@@ -5,7 +5,7 @@ import NoPointView from '../view/no-point-view.js';
 import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import PointNewPresenter from './point-new-presenter.js';
-import { SORT_TYPE, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
+import { SortType, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
 import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 
@@ -22,7 +22,7 @@ export default class BoardPresenter {
   #destinationsModel = null;
   #pointPresenter = new Map();
   #pointNewPresenter = null;
-  #currentSortType = SORT_TYPE.DEFAULT;
+  #currentSortType = SortType.DEFAULT;
   #filterType = FILTER_TYPE.EVERYTHING;
   #isLoading = true;
 
@@ -45,11 +45,11 @@ export default class BoardPresenter {
     const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
-      case SORT_TYPE.PRICE:
+      case SortType.PRICE:
         return filteredPoints.sort(sortPointByPrice);
-      case SORT_TYPE.TIME:
+      case SortType.TIME:
         return filteredPoints.sort(sortByTime);
-      case SORT_TYPE.DEFAULT:
+      case SortType.DEFAULT:
         return filteredPoints.sort(sortPointUp);
     }
     return filteredPoints;
@@ -60,7 +60,7 @@ export default class BoardPresenter {
   };
 
   createPoint = (callback) => {
-    this.#currentSortType = SORT_TYPE.DEFAULT;
+    this.#currentSortType = SortType.DEFAULT;
     this.#filterModel.setFilter(UpdateType.MINOR, FILTER_TYPE.EVERYTHING);
     this.#pointNewPresenter.init(callback);
   };
@@ -156,7 +156,7 @@ export default class BoardPresenter {
     }
 
     if (resetSortType) {
-      this.#currentSortType = SORT_TYPE.DEFAULT;
+      this.#currentSortType = SortType.DEFAULT;
     }
   };
 

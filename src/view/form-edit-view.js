@@ -1,8 +1,7 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizePointDateAndTime } from '../utils/point.js';
-import { TYPES } from '../const.js';
+import { TYPES, BLANK_POINT } from '../const.js';
 import flatpickr from 'flatpickr';
-import { BLANK_POINT } from '../const.js';
 import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
