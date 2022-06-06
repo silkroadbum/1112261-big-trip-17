@@ -189,7 +189,7 @@ export default class FormEditView extends AbstractStatefulView {
 
   reset = (point) => {
     this.updateElement(
-      FormEditView.parseTaskToState(point),
+      FormEditView.parsePointToState(point),
     );
   };
 
