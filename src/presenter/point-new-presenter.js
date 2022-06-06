@@ -1,8 +1,7 @@
 import { render, remove, RenderPosition } from '../framework/render.js';
 import FormEditView from '../view/form-edit-view.js';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, BLANK_POINT } from '../const.js';
 import { nanoid } from 'nanoid';
-import { BLANK_POINT } from '../const.js';
 
 
 export default class PointNewPresenter {
@@ -10,25 +9,28 @@ export default class PointNewPresenter {
   #changeData = null;
   #pointEditComponent = null;
   #destroyCallback = null;
+  #destinationsModel = null;
+  #offersModel = null;
 
-  #destination = null;
-  #offers = null;
+  #destinations = [];
+  #offers = [];
 
-  constructor(pointListContainer, destination, changeData, offers) {
+  constructor(pointListContainer, destinationsModel, changeData, offersModel) {
     this.#pointListContainer = pointListContainer;
-    this.#destination = destination;
-    this.#offers = offers;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
     this.#changeData = changeData;
   }
 
   init = (callback) => {
     this.#destroyCallback = callback;
-
+    this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
     if (this.#pointEditComponent !== null) {
       return;
     }
 
-    this.#pointEditComponent = new FormEditView(BLANK_POINT, this.#destination, this.#offers);
+    this.#pointEditComponent = new FormEditView(BLANK_POINT, this.#destinations, this.#offers);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setClickHandler(this.#handleFormClick);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);

@@ -2,35 +2,38 @@ import { remove, render, RenderPosition } from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import PointNewPresenter from './point-new-presenter.js';
-import { SORT_TYPE, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
   #boardComponent = new BoardView(); // создаем экземпляр пустого списка точек маршрута
-  #noPointComponent = null;
+  #loadingComponent = new LoadingView();
 
+  #noPointComponent = null;
   #sortComponent = null;
   #boardContainer = null;
   #pointsModel = null;
+  #offersModel = null;
   #filterModel = null;
-  #destination = null;
-  #offers = null;
+  #destinationsModel = null;
   #pointPresenter = new Map();
   #pointNewPresenter = null;
-  #currentSortType = SORT_TYPE.DEFAULT;
-  #filterType = FILTER_TYPE.EVERYTHING;
+  #currentSortType = SortType.DEFAULT;
+  #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
-  constructor(boardContainer, pointsModel, destination, offers, filterModel) {
+  constructor(boardContainer, pointsModel, destinationsModel, filterModel, offersModel) {
     this.#boardContainer = boardContainer;
-    this.#offers = offers;
-    this.#destination = destination;
     this.#pointsModel = pointsModel;
+    this.#offersModel = offersModel;
+    this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
 
-    this.#pointNewPresenter = new PointNewPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#offers);
+    this.#pointNewPresenter = new PointNewPresenter(this.#boardComponent.element, this.#destinationsModel, this.#handleViewAction, this.#offersModel);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -38,15 +41,15 @@ export default class BoardPresenter {
 
   get points() {
     this.#filterType = this.#filterModel.filter;
-    const tasks = this.#pointsModel.points;
-    const filteredPoints = filter[this.#filterType](tasks);
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
-      case SORT_TYPE.PRICE:
+      case SortType.PRICE:
         return filteredPoints.sort(sortPointByPrice);
-      case SORT_TYPE.TIME:
+      case SortType.TIME:
         return filteredPoints.sort(sortByTime);
-      case SORT_TYPE.DEFAULT:
+      case SortType.DEFAULT:
         return filteredPoints.sort(sortPointUp);
     }
     return filteredPoints;
@@ -57,8 +60,8 @@ export default class BoardPresenter {
   };
 
   createPoint = (callback) => {
-    this.#currentSortType = SORT_TYPE.DEFAULT;
-    this.#filterModel.setFilter(UpdateType.MINOR, FILTER_TYPE.EVERYTHING);
+    this.#currentSortType = SortType.DEFAULT;
+    this.#filterModel.setFilter(UpdateType.MINOR, FilterType.EVERYTHING);
     this.#pointNewPresenter.init(callback);
   };
 
@@ -94,6 +97,11 @@ export default class BoardPresenter {
         this.#clearBoard({ resetSortType: true });
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -125,10 +133,14 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destination, this.#handleViewAction, this.#handleModeChange, this.#offers);
+    const pointPresenter = new PointPresenter(this.#boardComponent.element, this.#destinationsModel, this.#handleViewAction, this.#handleModeChange, this.#offersModel);
 
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
+  };
+
+  #renderLoading = () => {
+    render(this.#loadingComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
   };
 
   #clearBoard = ({ resetSortType = false } = {}) => {
@@ -137,26 +149,34 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
     }
 
     if (resetSortType) {
-      this.#currentSortType = SORT_TYPE.DEFAULT;
+      this.#currentSortType = SortType.DEFAULT;
     }
   };
 
   #renderBoard = () => {
+    render(this.#boardComponent, this.#boardContainer);
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     const points = this.points;
     const pointCount = points.length;
+
     if (pointCount === 0) {
       this.#renderNoPointList();
       return;
     }
 
     this.#renderSort();
-    render(this.#boardComponent, this.#boardContainer);
     this.#renderPoints(points);
   };
 }

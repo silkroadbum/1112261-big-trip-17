@@ -1,8 +1,7 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizePointDateAndTime } from '../utils/point.js';
-import { TYPES } from '../const.js';
+import { TYPES, BLANK_POINT } from '../const.js';
 import flatpickr from 'flatpickr';
-import { BLANK_POINT } from '../const.js';
 import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
@@ -37,7 +36,7 @@ const renderDestinations = (allDestinations) => allDestinations.map((destination
 const createDestinationsTemplate = (type, destination, allDestinations) => (
   `<div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">${type}</label>
-    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination)}" list="destination-list-1">
+    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination.name)}" list="destination-list-1">
     <datalist id="destination-list-1">
       ${renderDestinations(allDestinations)}
     </datalist>
@@ -45,13 +44,13 @@ const createDestinationsTemplate = (type, destination, allDestinations) => (
 );
 
 const renderPhotos = (allDestinations, checkedDestination) => {
-  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination.name);
 
   return pointDestination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('');
 };
 
 const createDestinationPhotoTemplate = (allDestinations, checkedDestination) => {
-  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination);
+  const pointDestination = allDestinations.find((destination) => destination.name === checkedDestination.name);
 
   return pointDestination && pointDestination.description !== '' ?
     `<section class="event__section  event__section--destination">
@@ -69,30 +68,35 @@ const createDestinationPhotoTemplate = (allDestinations, checkedDestination) => 
 const renderAvailableOffers = (checkedType, allOffers, checkedOffers) => {
   const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
 
-  return pointTypeOffer.offers.map((offer) => {
-    const checked = checkedOffers.includes(offer.id) ? 'checked' : '';
+  if (pointTypeOffer !== undefined) {
+    return pointTypeOffer.offers.map((offer) => {
+      const checked = checkedOffers.includes(offer.id) ? 'checked' : '';
 
-    return `<div class='event__offer-selector'>
-      <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${offer.id}' type='checkbox' name='event-offer-luggage' data-offer-id=${offer.id} ${checked}>
-      <label class='event__offer-label' for='event-offer-luggage-${offer.id}'>
-        <span class='event__offer-title'>${offer.title}</span>
-        &plus;&euro;&nbsp;
-        <span class='event__offer-price'>${offer.price}</span>
-      </label>
-    </div>`;
-  }).join('');
+      return `<div class='event__offer-selector'>
+        <input class='event__offer-checkbox  visually-hidden' id='event-offer-luggage-${offer.id}' type='checkbox' name='event-offer-luggage' data-offer-id=${offer.id} ${checked}>
+        <label class='event__offer-label' for='event-offer-luggage-${offer.id}'>
+          <span class='event__offer-title'>${offer.title}</span>
+          &plus;&euro;&nbsp;
+          <span class='event__offer-price'>${offer.price}</span>
+        </label>
+      </div>`;
+    }).join('');
+  }
+  return '';
 };
 
 const createAvailableOffersTemplate = (checkedType, allOffers, checkedOffers) => {
   const pointTypeOffer = allOffers.find((offer) => offer.type === checkedType);
-
-  return pointTypeOffer.offers.length ?
-    `<section class='event__section  event__section--offers'>
-      <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
-      <div class='event__available-offers'>
-        ${renderAvailableOffers(checkedType, allOffers, checkedOffers)}
-      </div>
-    </section>` : '';
+  if (pointTypeOffer !== undefined) {
+    return pointTypeOffer.offers.length ?
+      `<section class='event__section  event__section--offers'>
+        <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
+        <div class='event__available-offers'>
+          ${renderAvailableOffers(checkedType, allOffers, checkedOffers)}
+        </div>
+      </section>` : '';
+  }
+  return '';
 };
 
 const createFormEditTemplate = (point, destinationData, offersData) => {
@@ -152,7 +156,7 @@ export default class FormEditView extends AbstractStatefulView {
 
   constructor(point = BLANK_POINT, destination, offers) {
     super();
-    this._state = FormEditView.parseTaskToState(point);
+    this._state = FormEditView.parsePointToState(point);
     this.#destination = destination;
     this.#offers = offers;
 
@@ -185,7 +189,7 @@ export default class FormEditView extends AbstractStatefulView {
 
   reset = (point) => {
     this.updateElement(
-      FormEditView.parseTaskToState(point),
+      FormEditView.parsePointToState(point),
     );
   };
 
@@ -232,9 +236,8 @@ export default class FormEditView extends AbstractStatefulView {
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      checkedDestination: evt.target.value,
-    });
+    this._state.checkedDestination.name = evt.target.value;
+    this.updateElement({ checkedDestination: this._state.checkedDestination });
   };
 
   #offersToggleHandler = (evt) => {
@@ -276,8 +279,11 @@ export default class FormEditView extends AbstractStatefulView {
       this.element.querySelector('#event-start-time-1'),
       {
         enableTime: true,
+        // eslint-disable-next-line camelcase
+        time_24hr: true,
         dateFormat: 'd/m/y H:i',
         defaultDate: this._state.dateFrom,
+        maxDate: this._state.dateTo,
         onChange: this.#dateFromChangeHandler,
       },
     );
@@ -288,6 +294,8 @@ export default class FormEditView extends AbstractStatefulView {
       this.element.querySelector('#event-end-time-1'),
       {
         enableTime: true,
+        // eslint-disable-next-line camelcase
+        time_24hr: true,
         dateFormat: 'd/m/y H:i',
         defaultDate: this._state.dateTo,
         minDate: this._state.dateFrom,
@@ -305,13 +313,14 @@ export default class FormEditView extends AbstractStatefulView {
     }
   };
 
-  static parseTaskToState = (point) => ({
+  static parsePointToState = (point) => ({
     ...point,
     checkedType: point.type,
     checkedDestination: point.destination,
     price: point.basePrice,
     checkedOffers: point.offers,
   });
+
 
   static parseStateToPoint = (state) => {
     const point = { ...state };
