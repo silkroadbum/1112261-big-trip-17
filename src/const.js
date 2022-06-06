@@ -10,7 +10,7 @@ const SortType = {
   PRICE: 'PRICE',
   TIME: 'TIME',
 };
-const FILTER_TYPE = {
+const FilterType = {
   EVERYTHING: 'EVERYTHING',
   FUTURE: 'FUTURE',
   PAST: 'PAST',
@@ -44,4 +44,4 @@ const Method = {
   PUT: 'PUT',
 };
 
-export { TYPES, Mode, SortType, FILTER_TYPE, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
+export { TYPES, Mode, SortType, FilterType, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
