@@ -5,7 +5,7 @@ import NoPointView from '../view/no-point-view.js';
 import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import PointNewPresenter from './point-new-presenter.js';
-import { SortType, UpdateType, UserAction, FILTER_TYPE } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { sortPointByPrice, sortByTime, sortPointUp } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 
@@ -23,7 +23,7 @@ export default class BoardPresenter {
   #pointPresenter = new Map();
   #pointNewPresenter = null;
   #currentSortType = SortType.DEFAULT;
-  #filterType = FILTER_TYPE.EVERYTHING;
+  #filterType = FilterType.EVERYTHING;
   #isLoading = true;
 
   constructor(boardContainer, pointsModel, destinationsModel, filterModel, offersModel) {
@@ -61,7 +61,7 @@ export default class BoardPresenter {
 
   createPoint = (callback) => {
     this.#currentSortType = SortType.DEFAULT;
-    this.#filterModel.setFilter(UpdateType.MINOR, FILTER_TYPE.EVERYTHING);
+    this.#filterModel.setFilter(UpdateType.MINOR, FilterType.EVERYTHING);
     this.#pointNewPresenter.init(callback);
   };
 
