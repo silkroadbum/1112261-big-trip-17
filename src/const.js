@@ -42,6 +42,8 @@ const BLANK_POINT = {
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
 };
 
 export { TYPES, Mode, SortType, FilterType, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
