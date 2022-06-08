@@ -42,6 +42,12 @@ const BLANK_POINT = {
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
 };
 
-export { TYPES, Mode, SortType, FilterType, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT };
+export { TYPES, Mode, SortType, FilterType, UserAction, UpdateType, BLANK_POINT, Method, AUTHORIZATION, END_POINT, TimeLimit };
