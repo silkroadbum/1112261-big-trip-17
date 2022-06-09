@@ -249,12 +249,12 @@ export default class FormEditView extends AbstractStatefulView {
       return;
     }
 
-    const оffers = Array.from(this.element.querySelectorAll('.event__offer-checkbox'))
+    const offers = Array.from(this.element.querySelectorAll('.event__offer-checkbox'))
       .filter((element) => element.checked)
       .map((element) => Number(element.dataset.offerId));
 
     this._setState({
-      checkedOffers: оffers,
+      checkedOffers: offers,
     });
   };
 
