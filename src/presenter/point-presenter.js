@@ -2,7 +2,7 @@ import { render, replace, remove } from '../framework/render.js';
 import WaypointView from '../view/waypoint-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import { Mode, UserAction, UpdateType } from '../const.js';
-import { isDatesEqual } from '../utils/point.js';
+import { isDatesEqual, isEscapeKey } from '../utils/point.js';
 
 
 export default class PointPresenter {
@@ -131,7 +131,7 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToPoint();

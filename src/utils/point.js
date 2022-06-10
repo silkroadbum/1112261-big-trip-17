@@ -52,4 +52,6 @@ const isPointCurrent = (date) => dayjs().isSame(date, 'minute');
 
 const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 
-export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime, isDatesEqual, sortPointUp };
+const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+export { humanizePointDate, humanizeEventDate, getDurationDates, sortPointByPrice, sortByTime, isPointPast, isPointFuture, isPointCurrent, humanizePointDateAndTime, isDatesEqual, sortPointUp, isEscapeKey };
